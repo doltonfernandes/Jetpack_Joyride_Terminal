@@ -18,7 +18,6 @@ obj_arr = []
 x = Jet_Boy()
 x.jb_init()
 obj_arr.append(x)
-obj_arr.append(Cloud(5))
 
 if __name__ == "__main__":
 	print_welcome_screen()
@@ -34,4 +33,4 @@ if __name__ == "__main__":
 		cnt += 1
 		if cnt == 40:
 			cnt = 0
-			obj_arr.append(Cloud(randint(5,10)))
+			obj_arr.append(Coin(randint(5,10),120))

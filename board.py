@@ -26,6 +26,9 @@ class Board:
 			print(Back.WHITE+' ',end="")
 			print(Style.RESET_ALL,end="")
 			for j in range(self.columns):
+				if self.board_arr[i][j] == 'y':
+					print(Back.YELLOW+' ',end="")
+					continue
 				if (i==self.hbh and j<=self.hbw) or (i<self.hbh and j==self.hbw):
 					print(Back.WHITE+' ',end="")
 					continue
@@ -56,12 +59,13 @@ class Board:
 	def update_corner(self,arr):
 		sc = ['S','C','O','R','E',' ','=']
 		li = ['L','I','V','E','S',' ','=']
-		arr[1:2,1:len(sc)+1] = sc
-		arr[2:3,1:len(li)+1] = li
+		lol = 3
+		arr[1:2,lol:len(sc)+lol] = sc
+		arr[2:3,lol:len(li)+lol] = li
 		tmp = self.get_num_str(self.score)
-		arr[1:2,len(sc)+2:len(sc)+2+len(tmp)] = tmp
+		arr[1:2,len(sc)+1+lol:len(sc)+1+len(tmp)+lol] = tmp
 		tmp = self.get_num_str(self.lives)
-		arr[2:3,len(li)+2:len(li)+2+len(tmp)] = tmp
+		arr[2:3,len(li)+1+lol:len(li)+1+len(tmp)+lol] = tmp
 
 	def mark_mandalorian(self,x,y):
 		self.board_arr[x][y]='O'
@@ -84,14 +88,13 @@ class Board:
 			if i==0:
 				self.mark_mandalorian(arr[i].x,arr[i].y)
 				continue
-			if arr[i].offset >= arr[i].columns:
+			for j in range(arr[i].rows):
+				for k in range(arr[i].columns):
+					if arr[i].y+k>=0 and arr[i].y+k<self.columns:
+						self.board_arr[arr[i].x+j][arr[i].y+k] = arr[i].image[j][k]
+			arr[i].move()
+			if arr[i].delete == 1:
 				tmparr.append(i)
-				continue
-			for j in range(self.rows):
-				for k in range(self.columns):
-					if k + arr[i].offset<arr[i].columns and arr[i].image[j][k + arr[i].offset]!=' ':
-						self.board_arr[j][k] = arr[i].image[j][k + arr[i].offset]
-			arr[i].offset += 1
 
 		k = 0
 		for i in tmparr:
