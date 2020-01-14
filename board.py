@@ -64,18 +64,8 @@ class Board:
 		arr[2:3,lol:len(li)+lol] = li
 		tmp = self.get_num_str(self.score)
 		arr[1:2,len(sc)+1+lol:len(sc)+1+len(tmp)+lol] = tmp
-		tmp = self.get_num_str(self.lives)
-		arr[2:3,len(li)+1+lol:len(li)+1+len(tmp)+lol] = tmp
-
-	def mark_mandalorian(self,x,y):
-		self.board_arr[x][y]='O'
-		self.board_arr[x+1][y]='|'
-		self.board_arr[x+1][y-1]='|'
-		self.board_arr[x+1][y-2]='/'
-		self.board_arr[x+2][y]='\\'
-		self.board_arr[x+2][y-1]='\\'
-		self.board_arr[x+3][y]='L'
-		self.board_arr[x+3][y-1]='L'
+		for i in range(self.lives):
+			arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "❤"
 
 	def update_board(self,arr):
 		self.board_arr = numpy.array([[' ']*self.columns])
@@ -85,8 +75,15 @@ class Board:
 		tmparr = []
 
 		for i in range(len(arr)):
-			if i==0:
-				self.mark_mandalorian(arr[i].x,arr[i].y)
+			if arr[i].name=="mandalorian":
+				for j in range(arr[i].rows):
+					for k in range(arr[i].columns):
+						if arr[i].y+k>=0 and arr[i].y+k<self.columns:
+							self.board_arr[arr[i].x+j][arr[i].y+k] = arr[i].image[j][k]
+				continue
+			if arr[i].chk(arr[0].x,arr[0].y):
+				self.score += 5
+				tmparr.append(i)
 				continue
 			for j in range(arr[i].rows):
 				for k in range(arr[i].columns):

@@ -8,3 +8,10 @@ ascii_coin = [
 'yy',
 'yy'
 ]
+
+ascii_mandalorian = [
+'  O',
+'/||',
+' \\\\',
+' LL'
+]
