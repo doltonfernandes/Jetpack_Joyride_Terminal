@@ -147,6 +147,21 @@ class Coin(Parent):
 		self.delete = 0
 		self.name = "coin"
 
+	def move_magnet(self,x):
+		if self.y < x.y:
+			self.move()
+		else:
+			if self.x < x.x:
+				if x.x - self.x > self.y - x.y:
+					self.x += 1
+				else:
+					self.y -= 1
+			else:
+				if self.x - x.x > self.y - x.y:
+					self.x -= 1
+				else:
+					self.y -= 1
+
 class Bars(Parent):
 
 	def __init__(self,x,y,p):

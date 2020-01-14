@@ -15,6 +15,8 @@ class Board:
 		self.border = SKY_LAND_BORDER
 		self.hbh = HEADER_BORDER_H
 		self.hbw = HEADER_BORDER_W
+		self.magnet = 0
+		self.mag_time = 0
 
 	def check_prints(self,i,j):
 		if self.board_arr[i][j] == 'y':
@@ -124,7 +126,10 @@ class Board:
 				for k in range(arr[i].columns):
 					if arr[i].x+j>=0 and arr[i].x+j<self.rows and arr[i].y+k>=0 and arr[i].y+k<self.columns:
 						self.board_arr[arr[i].x+j][arr[i].y+k] = arr[i].image[j][k]
-			arr[i].move()
+			if arr[i].name == "coin" and self.magnet:
+				arr[i].move_magnet(arr[0])
+			else:
+				arr[i].move()
 			if arr[i].delete == 1:
 				tmparr.append(i)
 
