@@ -16,31 +16,42 @@ class Board:
 		self.hbh = HEADER_BORDER_H
 		self.hbw = HEADER_BORDER_W
 
+	def check_prints(self,i,j):
+		if self.board_arr[i][j] == 'y':
+			print(Style.BRIGHT+Back.YELLOW+' ',end="")
+			return 1
+		if self.board_arr[i][j]==':':
+			print(Style.DIM+Fore.RED+'O',end="")
+			return 1
+		if self.board_arr[i][j]=='b':
+			print(Style.BRIGHT+Back.RED+' ',end="")
+			return 1
+		return 0
+
 	def print_board(self):
 		init()
 		print('\033[H')
 		for i in range(self.columns+2):
-			print(Back.WHITE+' ',end="")
+			print(Style.BRIGHT+Back.WHITE+' ',end="")
 		print()
 		for i in range(self.rows):
-			print(Back.WHITE+' ',end="")
+			print(Style.BRIGHT+Back.WHITE+' ',end="")
 			print(Style.RESET_ALL,end="")
 			for j in range(self.columns):
-				if self.board_arr[i][j] == 'y':
-					print(Back.YELLOW+' ',end="")
+				if self.check_prints(i,j)==1:
 					continue
 				if (i==self.hbh and j<=self.hbw) or (i<self.hbh and j==self.hbw):
-					print(Back.WHITE+' ',end="")
+					print(Style.BRIGHT+Back.WHITE+' ',end="")
 					continue
 				else:
 					print(Style.RESET_ALL,end="")
 				if self.border > i:
-					print(Back.BLUE+self.board_arr[i][j],end="")
+					print(Style.BRIGHT+Back.BLUE+self.board_arr[i][j],end="")
 				else:
-					print(Back.GREEN+self.board_arr[i][j],end="")
-			print(Back.WHITE+' ')
+					print(Style.BRIGHT+Back.GREEN+self.board_arr[i][j],end="")
+			print(Style.BRIGHT+Back.WHITE+' ')
 		for i in range(self.columns+2):
-			print(Back.WHITE+' ',end="")
+			print(Style.BRIGHT+Back.WHITE+' ',end="")
 		print(Style.RESET_ALL,end="")
 		print()
 		deinit()
@@ -67,6 +78,28 @@ class Board:
 		for i in range(self.lives):
 			arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "❤"
 
+	def check_ball(self,arr):
+		arr1 = []
+		arr2 = []
+
+		for i in range(1,len(arr)):
+			if arr[i].name=="ball":
+				arr1.append(i)
+
+		for i in range(1,len(arr)):
+			if arr[i].name=="bar" or arr[i].name=="enemy":
+				arr2.append(i)
+
+		for i in range(len(arr1)):
+			for j in range(len(arr2)):
+				if arr[arr1[i]].delete:
+					break
+				if arr[arr2[j]].delete==0 and arr[arr1[i]].chk(arr[arr2[j]]):
+					arr[arr1[i]].delete = 1
+					arr[arr2[j]].delete = 1
+					self.score += 2
+		return 0
+
 	def update_board(self,arr):
 		self.board_arr = numpy.array([[' ']*self.columns])
 		for i in range(self.rows):
@@ -74,12 +107,14 @@ class Board:
 
 		tmparr = []
 
+		self.check_ball(arr)
+
 		for i in range(1,len(arr)):
 			if arr[i].name=="coin" and arr[i].chk(arr[0]):
 				self.score += 5
 				tmparr.append(i)
 				continue
-			if arr[i].name=="bar" and arr[i].chk(arr[0]):
+			if (arr[i].name=="bar" or arr[i].name=="enemy") and arr[i].chk(arr[0]):
 				self.lives -= 1
 			for j in range(arr[i].rows):
 				for k in range(arr[i].columns):
@@ -104,8 +139,12 @@ class Board:
 		self.print_board()
 
 	def add_game_over(self):
-		self.board_arr[10][10] = 'G'
-		self.board_arr[10][12] = 'O'
+		s = "GAME OVER"
+		arr = []
+		for i in s:
+			arr.append(i)
+			arr.append(" ")
+		self.board_arr[13:14,50:50+len(arr)] = arr
 
 	def exit_game(self):
 		self.add_game_over()
