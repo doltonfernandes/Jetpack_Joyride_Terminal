@@ -70,11 +70,15 @@ class Board:
 	def update_corner(self,arr):
 		sc = ['S','C','O','R','E',' ','=']
 		li = ['L','I','V','E','S',' ','=']
+		tl = ['T','I','M','E',' ','=']
 		lol = 3
 		arr[1:2,lol:len(sc)+lol] = sc
 		arr[2:3,lol:len(li)+lol] = li
+		arr[3:4,lol:len(tl)+lol] = tl
 		tmp = self.get_num_str(self.score)
 		arr[1:2,len(sc)+1+lol:len(sc)+1+len(tmp)+lol] = tmp
+		tmp = self.get_num_str(self.time)
+		arr[3:4,len(tl)+1+lol:len(tl)+1+len(tmp)+lol] = tmp
 		for i in range(self.lives):
 			arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "❤"
 
@@ -134,7 +138,7 @@ class Board:
 			k += 1
 
 		self.update_corner(self.board_arr)
-		if self.lives == 0:
+		if self.lives == 0 or self.time == 0:
 			self.exit_game()
 		self.print_board()
 
@@ -150,5 +154,8 @@ class Board:
 		self.add_game_over()
 		self.print_board()
 		exit()
+
+	def update_time(self):
+		self.time -= 1
 
 Main_Board = Board()

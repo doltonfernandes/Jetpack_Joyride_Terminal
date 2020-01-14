@@ -23,6 +23,7 @@ if __name__ == "__main__":
 	inp = input()
 	system("clear")
 	fr = 1/FRAME_RATE
+	cnt = 0
 	cnt1 = 0
 	cnt2 = 0
 	cnt3 = 0
@@ -30,10 +31,14 @@ if __name__ == "__main__":
 		Main_Board.update_board(obj_arr)
 		x = key_press(sys.argv[1:],fr)
 		obj_arr[0].check_char(x,obj_arr)
+		cnt += 1
 		cnt1 += 1
 		cnt2 += 1
 		cnt3 += 1
 		lim = 40
+		if cnt == FRAME_RATE:
+			Main_Board.update_time()
+			cnt = 0
 		if cnt2 == 6:
 			cnt2 = 0
 			obj_arr[0].move_down()
