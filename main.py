@@ -37,7 +37,9 @@ if __name__ == "__main__":
 		if cnt2 == 6:
 			cnt2 = 0
 			obj_arr[0].move_down()
+		if cnt == 20:
+			obj_arr.append(Coin(randint(5,27),120))
 		if cnt == lim:
 			cnt = 0
 			lim = randint(40,80)
-			obj_arr.append(Coin(randint(5,27),120))
+			obj_arr.append(Bars(randint(5,21),120,randint(0,3)))

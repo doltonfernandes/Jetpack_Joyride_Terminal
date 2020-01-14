@@ -16,7 +16,7 @@ class Person:
 class Jet_Boy(Person):
 
 	def jb_init(self):
-		self.x = 30
+		self.x = 29
 		self.y = 10
 		self.rows = len(ascii_mandalorian)
 		self.columns = len(ascii_mandalorian[0])

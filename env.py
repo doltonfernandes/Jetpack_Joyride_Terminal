@@ -18,7 +18,32 @@ class Cloud:
 		if self.y == -10:
 			self.delete = 1
 
-class Coin:
+class Parent:
+
+	def move(self):
+		self.y -= 1
+		if self.y == -10:
+			self.delete = 1
+
+	def chk(self,obj):
+		arr = []
+		for i in range(obj.r):
+			arr.append([0]*obj.c)
+
+		for j in range(obj.rows):
+			for k in range(obj.columns):
+				if obj.y+k>=0 and obj.y+k<obj.c and obj.image[j][k]!=' ':
+					arr[obj.x+j][obj.y+k] = 1
+
+		for j in range(self.rows):
+			for k in range(self.columns):
+				if self.x+j>=0 and self.x+j<obj.r and self.y+k>=0 and self.y+k<obj.c and self.image[j][k]!=' ':
+					if arr[self.x+j][self.y+k]==1:
+						return 1
+
+		return 0
+
+class Coin(Parent):
 
 	def __init__(self,x,y):
 		self.rows = len(ascii_coin)
@@ -29,25 +54,13 @@ class Coin:
 		self.delete = 0
 		self.name = "coin"
 
-	def move(self):
-		self.y -= 1
-		if self.y == -10:
-			self.delete = 1
+class Bars(Parent):
 
-	def chk(self,x,y):
-		for i in range(4):
-			for j in range(3):
-				if self.check_if_got(x+i,y-2+j):
-					return 1
-		return 0
-
-	def check_if_got(self,x,y):
-		if x==self.x and y==self.y:
-			return 1
-		if x==self.x and y==self.y+1:
-			return 1
-		if x==self.x+1 and y==self.y:
-			return 1
-		if x==self.x+1 and y==self.y+1:
-			return 1
-		return 0
+	def __init__(self,x,y,p):
+		self.rows = len(ascii_bars[p])
+		self.columns = len(ascii_bars[p][0])
+		self.image = ascii_bars[p]
+		self.x = x
+		self.y = y
+		self.delete = 0
+		self.name = "bar"

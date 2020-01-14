@@ -81,13 +81,15 @@ class Board:
 						if arr[i].y+k>=0 and arr[i].y+k<self.columns:
 							self.board_arr[arr[i].x+j][arr[i].y+k] = arr[i].image[j][k]
 				continue
-			if arr[i].chk(arr[0].x,arr[0].y):
+			if arr[i].name=="coin" and arr[i].chk(arr[0]):
 				self.score += 5
 				tmparr.append(i)
 				continue
+			if arr[i].name=="bar" and arr[i].chk(arr[0]):
+				self.lives -= 1
 			for j in range(arr[i].rows):
 				for k in range(arr[i].columns):
-					if arr[i].y+k>=0 and arr[i].y+k<self.columns:
+					if arr[i].x+j>=0 and arr[i].x+j<self.rows and arr[i].y+k>=0 and arr[i].y+k<self.columns:
 						self.board_arr[arr[i].x+j][arr[i].y+k] = arr[i].image[j][k]
 			arr[i].move()
 			if arr[i].delete == 1:
