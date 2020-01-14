@@ -24,6 +24,7 @@ class Jet_Boy(Person):
 		self.vsp = VER_SPEED
 		self.hsp = HOR_SPEED
 		self.name = "mandalorian"
+		self.hurt = 1
 
 	def move_right(self):
 		if self.y+self.hsp<self.c:
@@ -41,6 +42,10 @@ class Jet_Boy(Person):
 		if self.x-self.vsp>4:
 			self.x-=self.vsp
 
+	def shoot(self):
+		print("\n\n\n\nyolo")
+		return 0
+
 	def check_char(self,x):
 		if x=='w':
 			self.move_up()
@@ -50,3 +55,5 @@ class Jet_Boy(Person):
 			self.move_left()
 		elif x=='d':
 			self.move_right()
+		elif x=='<0x20>':
+			self.shoot()

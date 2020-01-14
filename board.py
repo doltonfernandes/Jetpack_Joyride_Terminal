@@ -74,13 +74,7 @@ class Board:
 
 		tmparr = []
 
-		for i in range(len(arr)):
-			if arr[i].name=="mandalorian":
-				for j in range(arr[i].rows):
-					for k in range(arr[i].columns):
-						if arr[i].y+k>=0 and arr[i].y+k<self.columns:
-							self.board_arr[arr[i].x+j][arr[i].y+k] = arr[i].image[j][k]
-				continue
+		for i in range(1,len(arr)):
 			if arr[i].name=="coin" and arr[i].chk(arr[0]):
 				self.score += 5
 				tmparr.append(i)
@@ -95,11 +89,27 @@ class Board:
 			if arr[i].delete == 1:
 				tmparr.append(i)
 
+		for j in range(arr[0].rows):
+			for k in range(arr[0].columns):
+				if arr[0].y+k>=0 and arr[0].y+k<self.columns:
+					self.board_arr[arr[0].x+j][arr[0].y+k] = arr[0].image[j][k]
 		k = 0
 		for i in tmparr:
 			arr.pop(i-k)
 			k += 1
 
 		self.update_corner(self.board_arr)
+		if self.lives == 0:
+			self.exit_game()
+		self.print_board()
+
+	def add_game_over(self):
+		self.board_arr[10][10] = 'G'
+		self.board_arr[10][12] = 'O'
+
+	def exit_game(self):
+		self.add_game_over()
+		self.print_board()
+		exit()
 
 Main_Board = Board()

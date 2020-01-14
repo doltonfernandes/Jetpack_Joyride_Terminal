@@ -36,12 +36,11 @@ def key_press(argv,timeout):
     if prev_flags is not None:
         termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, prev_flags)
 
-    if c=="":
+    if c=='Q':
     	exit()
 
     now = str(datetime.now() - now)
     now = now.split(":")[2]
     if timeout - float(now) > 0:
     	time.sleep(timeout - float(now))
-
     return c
