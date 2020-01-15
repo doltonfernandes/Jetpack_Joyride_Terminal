@@ -15,7 +15,6 @@ class Board:
 		self.border = SKY_LAND_BORDER
 		self.hbh = HEADER_BORDER_H
 		self.hbw = HEADER_BORDER_W
-		self.magnet = 0
 		self.mag_time = 0
 
 	def check_prints(self,i,j):
@@ -26,6 +25,12 @@ class Board:
 			print(Style.DIM+Fore.RED+'O',end="")
 			return 1
 		if self.board_arr[i][j]=='b':
+			print(Style.BRIGHT+Back.RED+' ',end="")
+			return 1
+		if self.board_arr[i][j]=='w':
+			print(Style.BRIGHT+Back.WHITE+' ',end="")
+			return 1
+		if self.board_arr[i][j]=='r':
 			print(Style.BRIGHT+Back.RED+' ',end="")
 			return 1
 		return 0
@@ -122,11 +127,14 @@ class Board:
 				continue
 			if (arr[i].name=="bar" or arr[i].name=="enemy") and arr[i].chk(arr[0]):
 				self.lives -= 1
+			if arr[i].name=="magnet":
+				if arr[i].chk(arr[0]):
+					self.mag_time += (MAGNET_TIME*FRAME_RATE)
 			for j in range(arr[i].rows):
 				for k in range(arr[i].columns):
 					if arr[i].x+j>=0 and arr[i].x+j<self.rows and arr[i].y+k>=0 and arr[i].y+k<self.columns:
 						self.board_arr[arr[i].x+j][arr[i].y+k] = arr[i].image[j][k]
-			if arr[i].name == "coin" and self.magnet:
+			if arr[i].name == "coin" and self.mag_time>0:
 				arr[i].move_magnet(arr[0])
 			else:
 				arr[i].move()
@@ -143,6 +151,8 @@ class Board:
 			k += 1
 
 		self.update_corner(self.board_arr)
+		if self.mag_time > 0:
+			self.mag_time -= 1
 		if self.lives == 0 or self.time == 0:
 			self.exit_game()
 		self.print_board()

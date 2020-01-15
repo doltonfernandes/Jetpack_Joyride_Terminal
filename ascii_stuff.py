@@ -80,3 +80,9 @@ ascii_enemy = [
 ' / \\ ',
 ' | | '
 ]
+
+ascii_magnet = [
+'wrr',
+'  r',
+'wrr'
+]

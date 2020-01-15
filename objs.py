@@ -209,3 +209,48 @@ class ball:
 						return 1
 
 		return 0
+
+class Magnet:
+
+	def __init__(self,x,y):
+		self.rows = len(ascii_magnet)
+		self.columns = len(ascii_magnet[0])
+		self.image = ascii_magnet
+		self.x = x
+		self.y = y
+		self.delete = 0
+		self.name = "magnet"
+		self.dir = 1
+
+	def chk(self,obj):
+		arr = []
+		for i in range(obj.r):
+			arr.append([0]*obj.c)
+
+		for j in range(obj.rows):
+			for k in range(obj.columns):
+				if obj.y+k>=0 and obj.y+k<obj.c and obj.image[j][k]!=' ':
+					arr[obj.x+j][obj.y+k] = 1
+
+		for j in range(self.rows):
+			for k in range(self.columns):
+				if self.x+j>=0 and self.x+j<obj.r and self.y+k>=0 and self.y+k<obj.c and self.image[j][k]!=' ':
+					if arr[self.x+j][self.y+k]==1:
+						self.delete = 1
+						return 1
+
+		return 0
+
+	def move(self):
+		self.y -= 1
+		if self.y == -10:
+			self.delete = 1
+
+		if self.dir:
+			self.x += 1
+			if self.x == 25:
+				self.dir = 0
+		else:
+			self.x -= 1
+			if self.x == 10:
+				self.dir = 1

@@ -27,6 +27,7 @@ if __name__ == "__main__":
 	cnt1 = 0
 	cnt2 = 0
 	cnt3 = 0
+	cnt4 = 0
 	while 1:
 		Main_Board.update_board(obj_arr)
 		x = key_press(sys.argv[1:],fr)
@@ -35,6 +36,7 @@ if __name__ == "__main__":
 		cnt1 += 1
 		cnt2 += 1
 		cnt3 += 1
+		cnt4 += 1
 		lim = 40
 		if cnt == FRAME_RATE:
 			Main_Board.update_time()
@@ -52,3 +54,6 @@ if __name__ == "__main__":
 			x = Enemy()
 			x.enemy_init(29,120)
 			obj_arr.append(x)
+		if cnt4 == 300:
+			cnt4 = 0
+			obj_arr.append(Magnet(10,120))
