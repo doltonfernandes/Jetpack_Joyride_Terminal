@@ -34,7 +34,7 @@ if __name__ == "__main__":
 			fr *= 4
 		x = K.key_press(sys.argv[1:],1/fr)
 		if x=='m':
-			obj_arr.append(Boost(10,120))
+			obj_arr.append(Shield())
 		obj_arr[0].check_char(x,obj_arr)
 		cnt += 1
 		cnt1 += 1

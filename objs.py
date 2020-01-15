@@ -25,6 +25,7 @@ class Enemy(Person):
 		self.hsp = ENEMY_SPEED
 		self.name = "enemy"
 		self.delete = 0
+		self.priority = priorities["enemy"]
 
 	def move(self):
 		self.y -= self.hsp
@@ -64,6 +65,7 @@ class Jet_Boy(Person):
 		self.fr = FRAME_RATE
 		self.shoot_time = SHOOT_TIME
 		self.can_shoot = 0
+		self.priority = priorities["mandalorian"]
 
 	def move_right(self):
 		if self.y+self.hsp<self.c:
@@ -151,6 +153,7 @@ class Coin(Parent):
 		self.y = y
 		self.delete = 0
 		self.name = "coin"
+		self.priority = priorities["coin"]
 
 	def move_magnet(self,x):
 		if self.y < x.y:
@@ -177,6 +180,7 @@ class Bars(Parent):
 		self.y = y
 		self.delete = 0
 		self.name = "bar"
+		self.priority = priorities["bar"]
 
 class ball:
 
@@ -191,6 +195,7 @@ class ball:
 		self.delete = 0
 		self.name = "ball"
 		self.ball_speed = BALL_SPEED
+		self.priority = priorities["ball"]
 
 	def move(self):
 		self.y += self.ball_speed
@@ -260,6 +265,7 @@ class Magnet(Parent2):
 		self.delete = 0
 		self.name = "magnet"
 		self.dir = 1
+		self.priority = priorities["magnet"]
 
 class Boost(Parent2):
 
@@ -272,3 +278,29 @@ class Boost(Parent2):
 		self.delete = 0
 		self.name = "boost"
 		self.dir = 1
+		self.priority = priorities["boost"]
+
+class Shield:
+
+	def __init__(self):
+		self.rows = len(ascii_shield)
+		self.columns = len(ascii_shield[0])
+		self.image = ascii_shield
+		self.x = 0
+		self.y = 0
+		self.delete = 0
+		self.name = "shield"
+		self.priority = priorities["shield"]
+		self.shield_time = SHIELD_TIME*FRAME_RATE
+
+	def move(self):
+		pass
+
+	def update_shield(self,x,y):
+		self.x = x
+		self.y = y
+		if self.shield_time > 0:
+			self.shield_time -= 1
+			return 1
+		self.delete = 1
+		return 0

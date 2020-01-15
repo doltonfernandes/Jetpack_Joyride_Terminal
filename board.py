@@ -18,6 +18,7 @@ class Board:
 		self.mag_time = 0
 		self.fr = FRAME_RATE
 		self.speed_boost_time = 0
+		self.shield = 0
 
 	def check_prints(self,i,j):
 		if self.board_arr[i][j] == 'y':
@@ -114,6 +115,9 @@ class Board:
 		return 0
 
 	def update_board(self,arr):
+
+		arr.sort(key=lambda x:x.priority)
+
 		self.board_arr = numpy.array([[' ']*self.columns])
 		for i in range(self.rows):
 			self.board_arr = numpy.vstack([self.board_arr,[' ']*self.columns])
@@ -127,7 +131,7 @@ class Board:
 				self.score += 5
 				tmparr.append(i)
 				continue
-			if (arr[i].name=="bar" or arr[i].name=="enemy") and arr[i].chk(arr[0]):
+			if (arr[i].name=="bar" or arr[i].name=="enemy") and arr[i].chk(arr[0]) and self.shield==0:
 				self.lives -= 1
 			if arr[i].name=="magnet":
 				if arr[i].chk(arr[0]):
@@ -135,6 +139,8 @@ class Board:
 			if arr[i].name=="boost":
 				if arr[i].chk(arr[0]):
 					self.speed_boost_time += (SPEED_BOOST_TIME*self.fr)
+			if arr[i].name=="shield":
+				self.shield = arr[i].update_shield( arr[0].x - 1 , arr[0].y - 2 )
 			for j in range(arr[i].rows):
 				for k in range(arr[i].columns):
 					if arr[i].x+j>=0 and arr[i].x+j<self.rows and arr[i].y+k>=0 and arr[i].y+k<self.columns:
