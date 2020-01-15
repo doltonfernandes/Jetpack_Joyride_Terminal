@@ -145,7 +145,6 @@ class Parent:
 				if self.x+j>=0 and self.x+j<obj.r and self.y+k>=0 and self.y+k<obj.c and self.image[j][k]!=' ':
 					if arr[self.x+j][self.y+k]==1:
 						return 1
-
 		return 0
 
 class Coin(Parent):
@@ -308,4 +307,48 @@ class Shield:
 			self.shield_time -= 1
 			return 1
 		self.delete = 1
+		return 0
+
+class Dragon:
+
+	def chk(self,obj):
+		arr = []
+		for i in range(obj.r):
+			arr.append([0]*obj.c)
+
+		for j in range(obj.rows):
+			for k in range(obj.columns):
+				if obj.y+k>=0 and obj.y+k<obj.c and obj.image[j][k]!=' ':
+					arr[obj.x+j][obj.y+k] = 1
+
+		for j in range(self.rows):
+			for k in range(self.columns):
+				if self.x+j>=0 and self.x+j<obj.r and self.y+k>=0 and self.y+k<obj.c and self.image[j][k]!=' ':
+					if arr[self.x+j][self.y+k]==1:
+						return 1
+		return 0
+
+	def __init__(self,x,y):
+		self.rows = len(ascii_dragon)
+		self.columns = len(ascii_dragon[0])
+		self.image = ascii_dragon
+		self.x = x
+		self.y = y
+		self.delete = 0
+		self.name = "dragon"
+		self.priority = priorities["dragon"]
+
+	def move(self,x):
+		pass
+
+	def move_dragon(self,x):
+
+		if self.x + 7 > x.x and self.x > 1:
+			self.x -= 1
+			return 1
+
+		if self.x + 7 < x.x and self.x < 19:
+			self.x += 1
+			return 1
+
 		return 0

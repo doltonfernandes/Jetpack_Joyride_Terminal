@@ -115,7 +115,7 @@ class Board:
 		return 0
 
 	def update_board(self,arr):
-
+		
 		arr.sort(key=lambda x:x.priority)
 
 		self.board_arr = numpy.array([[' ']*self.columns])
@@ -148,7 +148,10 @@ class Board:
 			if arr[i].name == "coin" and self.mag_time>0:
 				arr[i].move_magnet(arr[0])
 			else:
-				arr[i].move()
+				if arr[i].name=="dragon":
+					arr[i].move_dragon(arr[0])
+				else:
+					arr[i].move()
 			if arr[i].delete == 1:
 				tmparr.append(i)
 

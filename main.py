@@ -17,6 +17,8 @@ obj_arr = []
 x = Jet_Boy()
 x.jb_init()
 obj_arr.append(x)
+# 5 18
+obj_arr.append(Dragon(5,76))
 
 if __name__ == "__main__":
 	print_welcome_screen()
@@ -46,19 +48,19 @@ if __name__ == "__main__":
 		if cnt2 == 6:
 			cnt2 = 0
 			obj_arr[0].move_down()
-		if cnt3 == 17:
-			cnt3 = 0
-			obj_arr.append(Coin(randint(6,27),120))
-		if cnt1 == lim:
-			cnt1 = 0
-			lim = randint(40,80)
-			obj_arr.append(Bars(randint(6,18),120,randint(0,3)))
-			x = Enemy()
-			x.enemy_init(29,120)
-			obj_arr.append(x)
-		if cnt4 == 300:
-			cnt4 = 0
-			if randint(0,1):
-				obj_arr.append(Magnet(10,120))
-			else:
-				obj_arr.append(Boost(10,120))
+		# if cnt3 == 17:
+		# 	cnt3 = 0
+		# 	obj_arr.append(Coin(randint(6,27),120))
+		# if cnt1 == lim:
+		# 	cnt1 = 0
+		# 	lim = randint(40,80)
+		# 	obj_arr.append(Bars(randint(6,18),120,randint(0,3)))
+		# 	x = Enemy()
+		# 	x.enemy_init(29,120)
+		# 	obj_arr.append(x)
+		# if cnt4 == 300:
+		# 	cnt4 = 0
+		# 	if randint(0,1):
+		# 		obj_arr.append(Magnet(10,120))
+		# 	else:
+		# 		obj_arr.append(Boost(10,120))
