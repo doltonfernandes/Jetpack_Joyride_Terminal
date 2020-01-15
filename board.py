@@ -16,6 +16,8 @@ class Board:
 		self.hbh = HEADER_BORDER_H
 		self.hbw = HEADER_BORDER_W
 		self.mag_time = 0
+		self.fr = FRAME_RATE
+		self.speed_boost_time = 0
 
 	def check_prints(self,i,j):
 		if self.board_arr[i][j] == 'y':
@@ -130,6 +132,9 @@ class Board:
 			if arr[i].name=="magnet":
 				if arr[i].chk(arr[0]):
 					self.mag_time += (MAGNET_TIME*FRAME_RATE)
+			if arr[i].name=="boost":
+				if arr[i].chk(arr[0]):
+					self.speed_boost_time += (SPEED_BOOST_TIME*self.fr)
 			for j in range(arr[i].rows):
 				for k in range(arr[i].columns):
 					if arr[i].x+j>=0 and arr[i].x+j<self.rows and arr[i].y+k>=0 and arr[i].y+k<self.columns:
@@ -155,6 +160,8 @@ class Board:
 			self.mag_time -= 1
 		if arr[0].can_shoot > 0:
 			arr[0].can_shoot -= 1
+		if self.speed_boost_time > 0:
+			self.speed_boost_time -= 1
 		if self.lives == 0 or self.time == 0:
 			self.exit_game()
 		self.print_board()

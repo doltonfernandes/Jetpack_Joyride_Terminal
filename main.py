@@ -22,7 +22,6 @@ if __name__ == "__main__":
 	print_welcome_screen()
 	inp = input()
 	system("clear")
-	fr = 1/FRAME_RATE
 	cnt = 0
 	cnt1 = 0
 	cnt2 = 0
@@ -30,7 +29,12 @@ if __name__ == "__main__":
 	cnt4 = 0
 	while 1:
 		Main_Board.update_board(obj_arr)
-		x = K.key_press(sys.argv[1:],fr)
+		fr = Main_Board.fr
+		if Main_Board.speed_boost_time > 0:
+			fr *= 4
+		x = K.key_press(sys.argv[1:],1/fr)
+		if x=='m':
+			obj_arr.append(Boost(10,120))
 		obj_arr[0].check_char(x,obj_arr)
 		cnt += 1
 		cnt1 += 1

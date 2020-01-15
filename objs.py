@@ -215,17 +215,7 @@ class ball:
 
 		return 0
 
-class Magnet:
-
-	def __init__(self,x,y):
-		self.rows = len(ascii_magnet)
-		self.columns = len(ascii_magnet[0])
-		self.image = ascii_magnet
-		self.x = x
-		self.y = y
-		self.delete = 0
-		self.name = "magnet"
-		self.dir = 1
+class Parent2:
 
 	def chk(self,obj):
 		arr = []
@@ -243,7 +233,6 @@ class Magnet:
 					if arr[self.x+j][self.y+k]==1:
 						self.delete = 1
 						return 1
-
 		return 0
 
 	def move(self):
@@ -259,3 +248,27 @@ class Magnet:
 			self.x -= 1
 			if self.x == 10:
 				self.dir = 1
+
+class Magnet(Parent2):
+
+	def __init__(self,x,y):
+		self.rows = len(ascii_magnet)
+		self.columns = len(ascii_magnet[0])
+		self.image = ascii_magnet
+		self.x = x
+		self.y = y
+		self.delete = 0
+		self.name = "magnet"
+		self.dir = 1
+
+class Boost(Parent2):
+
+	def __init__(self,x,y):
+		self.rows = len(ascii_boost)
+		self.columns = len(ascii_boost[0])
+		self.image = ascii_boost
+		self.x = x
+		self.y = y
+		self.delete = 0
+		self.name = "boost"
+		self.dir = 1

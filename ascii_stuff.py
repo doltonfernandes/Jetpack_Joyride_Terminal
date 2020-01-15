@@ -86,3 +86,9 @@ ascii_magnet = [
 '  r',
 'wrr'
 ]
+
+ascii_boost = [
+'www',
+'w w',
+'www'
+]
