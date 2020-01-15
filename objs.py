@@ -61,6 +61,9 @@ class Jet_Boy(Person):
 		self.hsp = HOR_SPEED
 		self.name = "mandalorian"
 		self.hurt = 1
+		self.fr = FRAME_RATE
+		self.shoot_time = SHOOT_TIME
+		self.can_shoot = 0
 
 	def move_right(self):
 		if self.y+self.hsp<self.c:
@@ -79,7 +82,9 @@ class Jet_Boy(Person):
 			self.x-=self.vsp
 
 	def shoot(self,arr):
-		arr.append(ball(self.x,self.y+5))
+		if self.can_shoot == 0:
+			arr.append(ball(self.x,self.y+5))
+			self.can_shoot += (self.fr*self.shoot_time)
 
 	def check_char(self,x,arr):
 		if x=='w':

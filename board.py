@@ -153,6 +153,8 @@ class Board:
 		self.update_corner(self.board_arr)
 		if self.mag_time > 0:
 			self.mag_time -= 1
+		if arr[0].can_shoot > 0:
+			arr[0].can_shoot -= 1
 		if self.lives == 0 or self.time == 0:
 			self.exit_game()
 		self.print_board()

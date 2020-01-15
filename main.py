@@ -30,7 +30,7 @@ if __name__ == "__main__":
 	cnt4 = 0
 	while 1:
 		Main_Board.update_board(obj_arr)
-		x = key_press(sys.argv[1:],fr)
+		x = K.key_press(sys.argv[1:],fr)
 		obj_arr[0].check_char(x,obj_arr)
 		cnt += 1
 		cnt1 += 1
