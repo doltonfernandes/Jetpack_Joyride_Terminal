@@ -33,8 +33,6 @@ if __name__ == "__main__":
 		if Main_Board.speed_boost_time > 0:
 			fr *= 4
 		x = K.key_press(sys.argv[1:],1/fr)
-		if x=='m':
-			obj_arr.append(Shield())
 		obj_arr[0].check_char(x,obj_arr)
 		cnt += 1
 		cnt1 += 1
@@ -50,14 +48,17 @@ if __name__ == "__main__":
 			obj_arr[0].move_down()
 		if cnt3 == 17:
 			cnt3 = 0
-			obj_arr.append(Coin(randint(5,27),120))
+			obj_arr.append(Coin(randint(6,27),120))
 		if cnt1 == lim:
 			cnt1 = 0
 			lim = randint(40,80)
-			obj_arr.append(Bars(randint(5,18),120,randint(0,3)))
+			obj_arr.append(Bars(randint(6,18),120,randint(0,3)))
 			x = Enemy()
 			x.enemy_init(29,120)
 			obj_arr.append(x)
 		if cnt4 == 300:
 			cnt4 = 0
-			obj_arr.append(Magnet(10,120))
+			if randint(0,1):
+				obj_arr.append(Magnet(10,120))
+			else:
+				obj_arr.append(Boost(10,120))

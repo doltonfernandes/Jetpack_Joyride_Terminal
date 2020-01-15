@@ -88,9 +88,14 @@ class Jet_Boy(Person):
 			arr.append(ball(self.x,self.y+5))
 			self.can_shoot += (self.fr*self.shoot_time)
 
+	def add_shield(self,arr):
+		arr.append(Shield())
+
 	def check_char(self,x,arr):
 		if x=='w':
 			self.move_up()
+		elif x==' ':
+			self.add_shield(arr)
 		elif x=='s':
 			self.move_down()
 		elif x=='a':
