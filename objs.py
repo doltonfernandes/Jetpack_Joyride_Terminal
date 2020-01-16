@@ -592,11 +592,11 @@ class Dragon:
 
 	def move_dragon(self,x):
 
-		if self.__x + 7 > x.x and self.__x > 1:
+		if self.__x + 7 > x.get_x() and self.__x > 1:
 			self.__x -= 1
 			return 1
 
-		if self.__x + 7 < x.x and self.__x < 19:
+		if self.__x + 7 < x.get_x() and self.__x < 19:
 			self.__x += 1
 			return 1
 
