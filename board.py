@@ -97,26 +97,26 @@ class Board:
 		arr2 = []
 
 		for i in range(1,len(arr)):
-			if arr[i].name=="ball":
+			if arr[i].get_name()=="ball":
 				arr1.append(i)
 
 		for i in range(1,len(arr)):
-			if arr[i].name=="bar" or arr[i].name=="enemy":
+			if arr[i].get_name()=="bar" or arr[i].get_name()=="enemy":
 				arr2.append(i)
 
 		for i in range(len(arr1)):
 			for j in range(len(arr2)):
-				if arr[arr1[i]].delete:
+				if arr[arr1[i]].get_delete():
 					break
-				if arr[arr2[j]].delete==0 and arr[arr1[i]].chk(arr[arr2[j]]):
-					arr[arr1[i]].delete = 1
-					arr[arr2[j]].delete = 1
+				if arr[arr2[j]].get_delete()==0 and arr[arr1[i]].chk(arr[arr2[j]]):
+					arr[arr1[i]].delt()
+					arr[arr2[j]].delt()
 					self.score += 2
 		return 0
 
 	def update_board(self,arr):
 		
-		arr.sort(key=lambda x:x.priority)
+		arr.sort(key=lambda x:x.get_priority())
 
 		self.board_arr = numpy.array([[' ']*self.columns])
 		for i in range(self.rows):
@@ -127,38 +127,38 @@ class Board:
 		self.check_ball(arr)
 
 		for i in range(1,len(arr)):
-			if arr[i].name=="coin" and arr[i].chk(arr[0]):
+			if arr[i].get_name()=="coin" and arr[i].chk(arr[0]):
 				self.score += 5
 				tmparr.append(i)
 				continue
-			if (arr[i].name=="bar" or arr[i].name=="enemy") and arr[i].chk(arr[0]) and self.shield==0:
+			if (arr[i].get_name()=="bar" or arr[i].get_name()=="enemy") and arr[i].chk(arr[0]) and self.shield==0:
 				self.lives -= 1
-			if arr[i].name=="magnet":
+			if arr[i].get_name()=="magnet":
 				if arr[i].chk(arr[0]):
 					self.mag_time += (MAGNET_TIME*FRAME_RATE)
-			if arr[i].name=="boost":
+			if arr[i].get_name()=="boost":
 				if arr[i].chk(arr[0]):
 					self.speed_boost_time += (SPEED_BOOST_TIME*self.fr)
-			if arr[i].name=="shield":
-				self.shield = arr[i].update_shield( arr[0].x - 1 , arr[0].y - 2 )
-			for j in range(arr[i].rows):
-				for k in range(arr[i].columns):
-					if arr[i].x+j>=0 and arr[i].x+j<self.rows and arr[i].y+k>=0 and arr[i].y+k<self.columns:
-						self.board_arr[arr[i].x+j][arr[i].y+k] = arr[i].image[j][k]
-			if arr[i].name == "coin" and self.mag_time>0:
+			if arr[i].get_name()=="shield":
+				self.shield = arr[i].update_shield( arr[0].get_x() - 1 , arr[0].get_y() - 2 )
+			for j in range(arr[i].get_rows()):
+				for k in range(arr[i].get_columns()):
+					if arr[i].get_x()+j>=0 and arr[i].get_x()+j<self.rows and arr[i].get_y()+k>=0 and arr[i].get_y()+k<self.columns:
+						self.board_arr[arr[i].get_x()+j][arr[i].get_y()+k] = arr[i].get_image()[j][k]
+			if arr[i].get_name() == "coin" and self.mag_time>0:
 				arr[i].move_magnet(arr[0])
 			else:
-				if arr[i].name=="dragon":
+				if arr[i].get_name()=="dragon":
 					arr[i].move_dragon(arr[0])
 				else:
 					arr[i].move()
-			if arr[i].delete == 1:
+			if arr[i].get_delete() == 1:
 				tmparr.append(i)
 
-		for j in range(arr[0].rows):
-			for k in range(arr[0].columns):
-				if arr[0].y+k>=0 and arr[0].y+k<self.columns:
-					self.board_arr[arr[0].x+j][arr[0].y+k] = arr[0].image[j][k]
+		for j in range(arr[0].get_rows()):
+			for k in range(arr[0].get_columns()):
+				if arr[0].get_y()+k>=0 and arr[0].get_y()+k<self.columns:
+					self.board_arr[arr[0].get_x()+j][arr[0].get_y()+k] = arr[0].get_image()[j][k]
 		k = 0
 		for i in tmparr:
 			arr.pop(i-k)
@@ -167,8 +167,8 @@ class Board:
 		self.update_corner(self.board_arr)
 		if self.mag_time > 0:
 			self.mag_time -= 1
-		if arr[0].can_shoot > 0:
-			arr[0].can_shoot -= 1
+		if arr[0].get_can_shoot() > 0:
+			arr[0].dec_shoot()
 		if self.speed_boost_time > 0:
 			self.speed_boost_time -= 1
 		if self.lives == 0 or self.time == 0:
