@@ -26,5 +26,6 @@ priorities  = {
 	"enemy":2,
 	"boost":3,
 	"ball":6,
-	"dragon":8
+	"dragon":8,
+	"magnet2":4
 }

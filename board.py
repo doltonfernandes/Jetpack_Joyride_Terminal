@@ -5,35 +5,35 @@ from colorama import Fore, Back, Style, init, deinit
 class Board:
 
 	def __init__(self):
-		self.rows = ROWS
-		self.columns = COLUMNS
-		self.time = TIME
-		self.lives = LIVES
-		self.score = SCORE
-		self.board_arr = numpy.array([[' ']*self.columns])
-		self.objs = []
-		self.border = SKY_LAND_BORDER
-		self.hbh = HEADER_BORDER_H
-		self.hbw = HEADER_BORDER_W
-		self.mag_time = 0
-		self.fr = FRAME_RATE
-		self.speed_boost_time = 0
-		self.shield = 0
+		self.__rows = ROWS
+		self.__columns = COLUMNS
+		self.__time = TIME
+		self.__lives = LIVES
+		self.__score = SCORE
+		self.__board_arr = numpy.array([[' ']*self.__columns])
+		self.__objs = []
+		self.__border = SKY_LAND_BORDER
+		self.__hbh = HEADER_BORDER_H
+		self.__hbw = HEADER_BORDER_W
+		self.__mag_time = 0
+		self.__fr = FRAME_RATE
+		self.__speed_boost_time = 0
+		self.__shield = 0
 
 	def check_prints(self,i,j):
-		if self.board_arr[i][j] == 'y':
+		if self.__board_arr[i][j] == 'y':
 			print(Style.BRIGHT+Back.YELLOW+' ',end="")
 			return 1
-		if self.board_arr[i][j]==':':
+		if self.__board_arr[i][j]==':':
 			print(Style.DIM+Fore.RED+'O',end="")
 			return 1
-		if self.board_arr[i][j]=='b':
+		if self.__board_arr[i][j]=='b':
 			print(Style.BRIGHT+Back.RED+' ',end="")
 			return 1
-		if self.board_arr[i][j]=='w':
+		if self.__board_arr[i][j]=='w':
 			print(Style.BRIGHT+Back.WHITE+' ',end="")
 			return 1
-		if self.board_arr[i][j]=='r':
+		if self.__board_arr[i][j]=='r':
 			print(Style.BRIGHT+Back.RED+' ',end="")
 			return 1
 		return 0
@@ -41,26 +41,26 @@ class Board:
 	def print_board(self):
 		init()
 		print('\033[H')
-		for i in range(self.columns+2):
+		for i in range(self.__columns+2):
 			print(Style.BRIGHT+Back.WHITE+' ',end="")
 		print()
-		for i in range(self.rows):
+		for i in range(self.__rows):
 			print(Style.BRIGHT+Back.WHITE+' ',end="")
 			print(Style.RESET_ALL,end="")
-			for j in range(self.columns):
+			for j in range(self.__columns):
 				if self.check_prints(i,j)==1:
 					continue
-				if (i==self.hbh and j<=self.hbw) or (i<self.hbh and j==self.hbw):
+				if (i==self.__hbh and j<=self.__hbw) or (i<self.__hbh and j==self.__hbw):
 					print(Style.BRIGHT+Back.WHITE+' ',end="")
 					continue
 				else:
 					print(Style.RESET_ALL,end="")
-				if self.border > i:
-					print(Style.BRIGHT+Back.BLUE+self.board_arr[i][j],end="")
+				if self.__border > i:
+					print(Style.BRIGHT+Back.BLUE+self.__board_arr[i][j],end="")
 				else:
-					print(Style.BRIGHT+Back.GREEN+self.board_arr[i][j],end="")
+					print(Style.BRIGHT+Back.GREEN+self.__board_arr[i][j],end="")
 			print(Style.BRIGHT+Back.WHITE+' ')
-		for i in range(self.columns+2):
+		for i in range(self.__columns+2):
 			print(Style.BRIGHT+Back.WHITE+' ',end="")
 		print(Style.RESET_ALL,end="")
 		print()
@@ -85,11 +85,11 @@ class Board:
 		arr[1:2,lol:len(sc)+lol] = sc
 		arr[2:3,lol:len(li)+lol] = li
 		arr[3:4,lol:len(tl)+lol] = tl
-		tmp = self.get_num_str(self.score)
+		tmp = self.get_num_str(self.__score)
 		arr[1:2,len(sc)+1+lol:len(sc)+1+len(tmp)+lol] = tmp
-		tmp = self.get_num_str(self.time)
+		tmp = self.get_num_str(self.__time)
 		arr[3:4,len(tl)+1+lol:len(tl)+1+len(tmp)+lol] = tmp
-		for i in range(self.lives):
+		for i in range(self.__lives):
 			arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "❤"
 
 	def check_ball(self,arr):
@@ -111,16 +111,16 @@ class Board:
 				if arr[arr2[j]].get_delete()==0 and arr[arr1[i]].chk(arr[arr2[j]]):
 					arr[arr1[i]].delt()
 					arr[arr2[j]].delt()
-					self.score += 2
+					self.__score += 2
 		return 0
 
 	def update_board(self,arr):
 		
 		arr.sort(key=lambda x:x.get_priority())
 
-		self.board_arr = numpy.array([[' ']*self.columns])
-		for i in range(self.rows):
-			self.board_arr = numpy.vstack([self.board_arr,[' ']*self.columns])
+		self.__board_arr = numpy.array([[' ']*self.__columns])
+		for i in range(self.__rows):
+			self.__board_arr = numpy.vstack([self.__board_arr,[' ']*self.__columns])
 
 		tmparr = []
 
@@ -128,28 +128,30 @@ class Board:
 
 		for i in range(1,len(arr)):
 			if arr[i].get_name()=="coin" and arr[i].chk(arr[0]):
-				self.score += 5
+				self.__score += 5
 				tmparr.append(i)
 				continue
-			if (arr[i].get_name()=="bar" or arr[i].get_name()=="enemy") and arr[i].chk(arr[0]) and self.shield==0:
-				self.lives -= 1
+			if (arr[i].get_name()=="bar" or arr[i].get_name()=="enemy") and arr[i].chk(arr[0]) and self.__shield==0:
+				self.__lives -= 1
 			if arr[i].get_name()=="magnet":
 				if arr[i].chk(arr[0]):
-					self.mag_time += (MAGNET_TIME*FRAME_RATE)
+					self.__mag_time += (MAGNET_TIME*FRAME_RATE)
 			if arr[i].get_name()=="boost":
 				if arr[i].chk(arr[0]):
-					self.speed_boost_time += (SPEED_BOOST_TIME*self.fr)
+					self.__speed_boost_time += (SPEED_BOOST_TIME*self.__fr)
 			if arr[i].get_name()=="shield":
-				self.shield = arr[i].update_shield( arr[0].get_x() - 1 , arr[0].get_y() - 2 )
+				self.__shield = arr[i].update_shield( arr[0].get_x() - 1 , arr[0].get_y() - 2 )
 			for j in range(arr[i].get_rows()):
 				for k in range(arr[i].get_columns()):
-					if arr[i].get_x()+j>=0 and arr[i].get_x()+j<self.rows and arr[i].get_y()+k>=0 and arr[i].get_y()+k<self.columns:
-						self.board_arr[arr[i].get_x()+j][arr[i].get_y()+k] = arr[i].get_image()[j][k]
-			if arr[i].get_name() == "coin" and self.mag_time>0:
+					if arr[i].get_x()+j>=0 and arr[i].get_x()+j<self.__rows and arr[i].get_y()+k>=0 and arr[i].get_y()+k<self.__columns:
+						self.__board_arr[arr[i].get_x()+j][arr[i].get_y()+k] = arr[i].get_image()[j][k]
+			if arr[i].get_name() == "coin" and self.__mag_time>0:
 				arr[i].move_magnet(arr[0])
 			else:
 				if arr[i].get_name()=="dragon":
 					arr[i].move_dragon(arr[0])
+				elif arr[i].get_name()=="magnet2":
+					arr[i].move(arr[0])
 				else:
 					arr[i].move()
 			if arr[i].get_delete() == 1:
@@ -157,21 +159,21 @@ class Board:
 
 		for j in range(arr[0].get_rows()):
 			for k in range(arr[0].get_columns()):
-				if arr[0].get_y()+k>=0 and arr[0].get_y()+k<self.columns:
-					self.board_arr[arr[0].get_x()+j][arr[0].get_y()+k] = arr[0].get_image()[j][k]
+				if arr[0].get_y()+k>=0 and arr[0].get_y()+k<self.__columns:
+					self.__board_arr[arr[0].get_x()+j][arr[0].get_y()+k] = arr[0].get_image()[j][k]
 		k = 0
 		for i in tmparr:
 			arr.pop(i-k)
 			k += 1
 
-		self.update_corner(self.board_arr)
-		if self.mag_time > 0:
-			self.mag_time -= 1
+		self.update_corner(self.__board_arr)
+		if self.__mag_time > 0:
+			self.__mag_time -= 1
 		if arr[0].get_can_shoot() > 0:
 			arr[0].dec_shoot()
-		if self.speed_boost_time > 0:
-			self.speed_boost_time -= 1
-		if self.lives == 0 or self.time == 0:
+		if self.__speed_boost_time > 0:
+			self.__speed_boost_time -= 1
+		if self.__lives == 0 or self.__time == 0:
 			self.exit_game()
 		self.print_board()
 
@@ -181,7 +183,7 @@ class Board:
 		for i in s:
 			arr.append(i)
 			arr.append(" ")
-		self.board_arr[13:14,50:50+len(arr)] = arr
+		self.__board_arr[13:14,50:50+len(arr)] = arr
 
 	def exit_game(self):
 		self.add_game_over()
@@ -189,6 +191,12 @@ class Board:
 		exit()
 
 	def update_time(self):
-		self.time -= 1
+		self.__time -= 1
+
+	def get_fr(self):
+		return self.__fr
+
+	def get_speed_boost_time(self):
+		return self.__speed_boost_time
 
 Main_Board = Board()

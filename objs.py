@@ -127,8 +127,6 @@ class Jet_Boy(Person):
 			self.move_up()
 		elif x==' ':
 			self.add_shield(arr)
-		elif x=='s':
-			self.move_down()
 		elif x=='a':
 			self.move_left()
 		elif x=='d':
@@ -628,3 +626,83 @@ class Dragon:
 
 	def delt(self):
 		self.__delete = 1
+
+class Magnet_Assignment:
+
+	def __init__(self,x,y):
+		self.__rows = len(ascii_magnet2)
+		self.__columns = len(ascii_magnet2[0])
+		self.__image = ascii_magnet2
+		self.__x = x
+		self.__y = y
+		self.__delete = 0
+		self.__name = "magnet2"
+		self.__priority = priorities["magnet2"]
+		self.__force = 5
+		self.__cnt = 0
+
+	def chk(self,obj):
+		arr = []
+		for i in range(obj.get_r()):
+			arr.append([0]*obj.get_c())
+
+		for j in range(obj.get_rows()):
+			for k in range(obj.get_columns()):
+				if obj.get_y()+k>=0 and obj.get_y()+k<obj.get_c() and obj.get_image()[j][k]!=' ':
+					arr[obj.get_x()+j][obj.get_y()+k] = 1
+
+		for j in range(self.__rows):
+			for k in range(self.__columns):
+				if self.__x+j>=0 and self.__x+j<obj.get_r() and self.__y+k>=0 and self.__y+k<obj.get_c() and self.__image[j][k]!=' ':
+					if arr[self.__x+j][self.__y+k]==1:
+						return 1
+		return 0
+
+	def move(self,x):
+		self.move_mand_magnet(x)
+		self.__cnt += 1
+		self.__y -= 1
+		if self.__y == -10:
+			self.__delete = 1
+
+	def get_priority(self):
+		return self.__priority
+
+	def get_x(self):
+		return self.__x
+
+	def get_y(self):
+		return self.__y
+
+	def get_rows(self):
+		return self.__rows
+
+	def get_columns(self):
+		return self.__columns
+
+	def get_image(self):
+		return self.__image
+
+	def get_name(self):
+		return self.__name
+
+	def get_delete(self):
+		return self.__delete
+
+	def delt(self):
+		self.__delete = 1
+
+	def move_mand_magnet(self,x):
+		if self.__cnt % self.__force != 0:
+			return 0
+		a = x.get_x() - self.__x
+		b = x.get_y() - self.__y
+		if b > 0:
+			x.move_left()
+		else:
+			x.move_right()
+		if a > 0:
+			x.move_up()
+		else:
+			x.move_down()
+		return 1
