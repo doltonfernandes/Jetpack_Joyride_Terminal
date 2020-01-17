@@ -15,7 +15,7 @@ ENEMY_SPEED = 2
 MAGNET_TIME = 8
 SHOOT_TIME = 2
 SPEED_BOOST_TIME = 8
-SHIELD_TIME = 8
+SHIELD_TIME = 10
 
 priorities  = {
 	"mandalorian":0,

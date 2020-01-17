@@ -119,14 +119,14 @@ class Jet_Boy(Person):
 			arr.append(ball(self.__x,self.__y+5))
 			self.__can_shoot += (self.__fr*self.__shoot_time)
 
-	def add_shield(self,arr):
-		arr.append(Shield())
+	def add_shield(self,arr,t):
+		arr.append(Shield(t))
 
-	def check_char(self,x,arr):
+	def check_char(self,x,arr,t):
 		if x=='w':
 			self.move_up()
 		elif x==' ':
-			self.add_shield(arr)
+			self.add_shield(arr,t)
 		elif x=='a':
 			self.move_left()
 		elif x=='d':
@@ -506,7 +506,7 @@ class Boost(Parent2):
 
 class Shield:
 
-	def __init__(self):
+	def __init__(self,x):
 		self.__rows = len(ascii_shield)
 		self.__columns = len(ascii_shield[0])
 		self.__image = ascii_shield
@@ -515,19 +515,17 @@ class Shield:
 		self.__delete = 0
 		self.__name = "shield"
 		self.__priority = priorities["shield"]
-		self.__shield_time = SHIELD_TIME*FRAME_RATE
+		self.__shield_ini_time = x
+		self.__shield_time = SHIELD_TIME
 
 	def move(self):
 		pass
 
-	def update_shield(self,x,y):
+	def update_shield(self,x,y,t):
 		self.__x = x
 		self.__y = y
-		if self.__shield_time > 0:
-			self.__shield_time -= 1
-			return 1
-		self.__delete = 1
-		return 0
+		if self.__shield_ini_time - self.__shield_time > t:
+			self.__delete = 1
 
 	def get_priority(self):
 		return self.__priority

@@ -35,7 +35,7 @@ if __name__ == "__main__":
 		if Main_Board.get_speed_boost_time() > 0:
 			fr *= 4
 		x = K.key_press(sys.argv[1:],1/fr)
-		obj_arr[0].check_char(x,obj_arr)
+		obj_arr[0].check_char(x,obj_arr,Main_Board.get_time())
 		cnt += 1
 		cnt1 += 1
 		cnt2 += 1

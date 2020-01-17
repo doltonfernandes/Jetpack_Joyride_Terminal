@@ -140,7 +140,7 @@ class Board:
 				if arr[i].chk(arr[0]):
 					self.__speed_boost_time += (SPEED_BOOST_TIME*self.__fr)
 			if arr[i].get_name()=="shield":
-				self.__shield = arr[i].update_shield( arr[0].get_x() - 1 , arr[0].get_y() - 2 )
+				self.__shield = arr[i].update_shield( arr[0].get_x() - 1 , arr[0].get_y() - 2 , self.__time )
 			for j in range(arr[i].get_rows()):
 				for k in range(arr[i].get_columns()):
 					if arr[i].get_x()+j>=0 and arr[i].get_x()+j<self.__rows and arr[i].get_y()+k>=0 and arr[i].get_y()+k<self.__columns:
@@ -198,5 +198,8 @@ class Board:
 
 	def get_speed_boost_time(self):
 		return self.__speed_boost_time
+
+	def get_time(self):
+		return self.__time
 
 Main_Board = Board()
