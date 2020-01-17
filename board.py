@@ -92,6 +92,17 @@ class Board:
 		for i in range(self.__lives):
 			arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "❤"
 
+	def update_corner2(self,arr,x):
+		li = ['L','I','V','E','S',' ','=']
+		lol = 105
+		arr[1:2,lol:len(li)+lol] = li
+		tmp = self.get_num_str(x)
+		arr[1:2,len(li)+1+lol] = '❤'
+		arr[1:2,len(li)+3+lol] = 'x'
+		arr[1:2,len(li)+4+lol:len(li)+4+len(tmp)+lol] = tmp
+		arr[0:3,102:103] = 'w'
+		arr[3:4,102:120] = 'w'
+
 	def check_ball(self,arr):
 		arr1 = []
 		arr2 = []
@@ -175,6 +186,7 @@ class Board:
 				if arr[i].get_name()=="dragon":
 					arr[i].move_dragon(arr[0],arr)
 					l1.append(arr[i])
+					self.update_corner2(self.__board_arr,arr[i].get_lives())
 				elif arr[i].get_name()=="magnet2":
 					arr[i].move(arr[0])
 				else:
