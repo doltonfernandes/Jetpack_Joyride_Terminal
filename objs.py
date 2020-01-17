@@ -12,24 +12,59 @@ class Person:
 		self._y = 0
 		self._name = ""
 
-class Enemy(Person):
+class Parent_Func:
+
+	def get_priority(self):
+		return self._priority
+
+	def get_x(self):
+		return self._x
+
+	def get_y(self):
+		return self._y
+
+	def get_rows(self):
+		return self._rows
+
+	def get_columns(self):
+		return self._columns
+
+	def get_image(self):
+		return self._image
+
+	def get_name(self):
+		return self._name
+
+	def get_r(self):
+		return self._r
+
+	def get_c(self):
+		return self._c
+
+	def get_delete(self):
+		return self._delete
+
+	def delt(self):
+		self._delete = 1
+
+class Enemy(Person,Parent_Func):
 
 	def enemy_init(self,x,y):
-		self.__x = x
-		self.__y = y
-		self.__rows = len(ascii_enemy)
-		self.__columns = len(ascii_enemy[0])
-		self.__image = ascii_enemy
+		self._x = x
+		self._y = y
+		self._rows = len(ascii_enemy)
+		self._columns = len(ascii_enemy[0])
+		self._image = ascii_enemy
 		self.__vsp = 0
 		self.__hsp = ENEMY_SPEED
-		self.__name = "enemy"
-		self.__delete = 0
-		self.__priority = priorities["enemy"]
+		self._name = "enemy"
+		self._delete = 0
+		self._priority = priorities["enemy"]
 
 	def move(self):
-		self.__y -= self.__hsp
-		if self.__y == -10:
-			self.__delete = 1
+		self._y -= self.__hsp
+		if self._y == -10:
+			self._delete = 1
 
 	def chk(self,obj):
 		arr = []
@@ -41,82 +76,49 @@ class Enemy(Person):
 				if obj.get_y()+k>=0 and obj.get_y()+k<obj.get_c() and obj.get_image()[j][k]!=' ':
 					arr[obj.get_x()+j][obj.get_y()+k] = 1
 
-		for j in range(self.__rows):
-			for k in range(self.__columns):
-				if self.__x+j>=0 and self.__x+j<obj.get_r() and self.__y+k>=0 and self.__y+k<obj.get_c() and self.__image[j][k]!=' ':
-					if arr[self.__x+j][self.__y+k]==1:
+		for j in range(self._rows):
+			for k in range(self._columns):
+				if self._x+j>=0 and self._x+j<obj.get_r() and self._y+k>=0 and self._y+k<obj.get_c() and self._image[j][k]!=' ':
+					if arr[self._x+j][self._y+k]==1:
 						return 1
 		return 0
 
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
-
-	def get_r(self):
-		return self._r
-
-	def get_c(self):
-		return self._c
-
-	def get_delete(self):
-		return self.__delete
-
-	def delt(self):
-		self.__delete = 1
-
-class Jet_Boy(Person):
+class Jet_Boy(Person,Parent_Func):
 
 	def jb_init(self):
-		self.__x = 29
-		self.__y = 10
-		self.__rows = len(ascii_mandalorian)
-		self.__columns = len(ascii_mandalorian[0])
-		self.__image = ascii_mandalorian
+		self._x = 29
+		self._y = 10
+		self._rows = len(ascii_mandalorian)
+		self._columns = len(ascii_mandalorian[0])
+		self._image = ascii_mandalorian
 		self.__vsp = VER_SPEED
 		self.__hsp = HOR_SPEED
-		self.__name = "mandalorian"
+		self._name = "mandalorian"
 		self.__hurt = 1
 		self.__fr = FRAME_RATE
 		self.__shoot_time = SHOOT_TIME
 		self.__can_shoot = 0
-		self.__priority = priorities["mandalorian"]
+		self._priority = priorities["mandalorian"]
 
 	def move_right(self):
-		if self.__y+self.__hsp<self._c:
-			self.__y+=self.__hsp
+		if self._y+self.__hsp<self._c:
+			self._y+=self.__hsp
 
 	def move_left(self):
-		if self.__y-self.__hsp>=0:
-			self.__y-=self.__hsp
+		if self._y-self.__hsp>=0:
+			self._y-=self.__hsp
 
 	def move_down(self):
-		if self.__x+self.__vsp+4<self._r:
-			self.__x+=self.__vsp
+		if self._x+self.__vsp+4<self._r:
+			self._x+=self.__vsp
 
 	def move_up(self):
-		if self.__x-self.__vsp>4:
-			self.__x-=self.__vsp
+		if self._x-self.__vsp>4:
+			self._x-=self.__vsp
 
 	def shoot(self,arr):
 		if self.__can_shoot == 0:
-			arr.append(ball(self.__x,self.__y+5))
+			arr.append(ball(self._x,self._y+5))
 			self.__can_shoot += (self.__fr*self.__shoot_time)
 
 	def add_shield(self,arr,t):
@@ -136,54 +138,27 @@ class Jet_Boy(Person):
 		elif x=='Q':
 			exit()
 
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
 	def get_can_shoot(self):
 		return self.__can_shoot
 
 	def dec_shoot(self):
 		self.__can_shoot -= 1
 
-	def get_name(self):
-		return self.__name
-
-	def get_r(self):
-		return self._r
-
-	def get_c(self):
-		return self._c
-
 class Cloud:
 
 	def __init__(self,x,y):
-		self.__rows = len(ascii_cloud)
-		self.__columns = len(ascii_cloud[0])
-		self.__image = ascii_cloud
-		self.__x = x
-		self.__y = y
-		self.__delete = 0
-		self.__name = "cloud"
+		self._rows = len(ascii_cloud)
+		self._columns = len(ascii_cloud[0])
+		self._image = ascii_cloud
+		self._x = x
+		self._y = y
+		self._delete = 0
+		self._name = "cloud"
 
 	def move(self):
-		self.__y -= 1
-		if self.__y == -10:
-			self.__delete = 1
+		self._y -= 1
+		if self._y == -10:
+			self._delete = 1
 
 class Parent:
 
@@ -204,127 +179,73 @@ class Parent:
 						return 1
 		return 0
 
-class Coin(Parent):
+class Coin(Parent,Parent_Func):
 
 	def __init__(self,x,y):
-		self.__rows = len(ascii_coin)
-		self.__columns = len(ascii_coin[0])
-		self.__image = ascii_coin
-		self.__x = x
-		self.__y = y
-		self.__delete = 0
-		self.__name = "coin"
-		self.__priority = priorities["coin"]
+		self._rows = len(ascii_coin)
+		self._columns = len(ascii_coin[0])
+		self._image = ascii_coin
+		self._x = x
+		self._y = y
+		self._delete = 0
+		self._name = "coin"
+		self._priority = priorities["coin"]
 
 	def move_magnet(self,x):
-		if self.__y < x.get_y():
+		if self._y < x.get_y():
 			self.move()
 		else:
-			if self.__x < x.get_x():
-				if x.get_x() - self.__x > self.__y - x.get_y():
-					self.__x += 1
+			if self._x < x.get_x():
+				if x.get_x() - self._x > self._y - x.get_y():
+					self._x += 1
 				else:
-					self.__y -= 1
+					self._y -= 1
 			else:
-				if self.__x - x.get_x() > self.__y - x.get_y():
-					self.__x -= 1
+				if self._x - x.get_x() > self._y - x.get_y():
+					self._x -= 1
 				else:
-					self.__y -= 1
+					self._y -= 1
 	def move(self):
-		self.__y -= 1
-		if self.__y == -10:
-			self.__delete = 1
+		self._y -= 1
+		if self._y == -10:
+			self._delete = 1
 
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
-
-	def get_delete(self):
-		return self.__delete
-
-	def delt(self):
-		self.__delete = 1
-
-class Bars(Parent):
+class Bars(Parent,Parent_Func):
 
 	def __init__(self,x,y,p):
-		self.__rows = len(ascii_bars[p])
-		self.__columns = len(ascii_bars[p][0])
-		self.__image = ascii_bars[p]
-		self.__x = x
-		self.__y = y
-		self.__delete = 0
-		self.__name = "bar"
-		self.__priority = priorities["bar"]
+		self._rows = len(ascii_bars[p])
+		self._columns = len(ascii_bars[p][0])
+		self._image = ascii_bars[p]
+		self._x = x
+		self._y = y
+		self._delete = 0
+		self._name = "bar"
+		self._priority = priorities["bar"]
 
 	def move(self):
-		self.__y -= 1
-		if self.__y == -20:
-			self.__delete = 1
+		self._y -= 1
+		if self._y == -20:
+			self._delete = 1
 
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
-
-	def get_delete(self):
-		return self.__delete
-
-	def delt(self):
-		self.__delete = 1
-
-class ball:
+class ball(Parent_Func):
 
 	def __init__(self,x,y):
-		self.__rows = len(ascii_ball)
-		self.__columns = len(ascii_ball[0])
+		self._rows = len(ascii_ball)
+		self._columns = len(ascii_ball[0])
 		self.__r = ROWS
 		self.__c = COLUMNS
-		self.__image = ascii_ball
-		self.__x = x
-		self.__y = y
-		self.__delete = 0
-		self.__name = "ball"
+		self._image = ascii_ball
+		self._x = x
+		self._y = y
+		self._delete = 0
+		self._name = "ball"
 		self.__ball_speed = BALL_SPEED
-		self.__priority = priorities["ball"]
+		self._priority = priorities["ball"]
 
 	def move(self):
-		self.__y += self.__ball_speed
-		if self.__y > 120:
-			self.__delete = 1
+		self._y += self.__ball_speed
+		if self._y > 120:
+			self._delete = 1
 
 	def chk(self,obj):
 		arr = []
@@ -336,45 +257,12 @@ class ball:
 				if obj.get_y()+k>=0 and obj.get_y()+k<self.__c and obj.get_image()[j][k]!=' ':
 					arr[obj.get_x()+j][obj.get_y()+k] = 1
 
-		for j in range(self.__rows):
-			for k in range(self.__columns):
-				if self.__x+j>=0 and self.__x+j<self.__r and self.__y+k>=0 and self.__y+k<self.__c and self.__image[j][k]!=' ':
-					if arr[self.__x+j][self.__y+k]==1:
+		for j in range(self._rows):
+			for k in range(self._columns):
+				if self._x+j>=0 and self._x+j<self.__r and self._y+k>=0 and self._y+k<self.__c and self._image[j][k]!=' ':
+					if arr[self._x+j][self._y+k]==1:
 						return 1
 		return 0
-
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
-
-	def get_r(self):
-		return self.__r
-
-	def get_c(self):
-		return self.__c
-
-	def get_delete(self):
-		return self.__delete
-
-	def delt(self):
-		self.__delete = 1
 
 class Parent2:
 
@@ -396,125 +284,71 @@ class Parent2:
 						return 1
 		return 0
 
-class Magnet(Parent2):
+class Magnet(Parent2,Parent_Func):
 
 	def __init__(self,x,y):
-		self.__rows = len(ascii_magnet)
-		self.__columns = len(ascii_magnet[0])
-		self.__image = ascii_magnet
-		self.__x = x
-		self.__y = y
+		self._rows = len(ascii_magnet)
+		self._columns = len(ascii_magnet[0])
+		self._image = ascii_magnet
+		self._x = x
+		self._y = y
 		self._delete = 0
-		self.__name = "magnet"
+		self._name = "magnet"
 		self.__dir = 1
-		self.__priority = priorities["magnet"]
-
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
+		self._priority = priorities["magnet"]
 
 	def move(self):
-		self.__y -= 1
-		if self.__y == -10:
+		self._y -= 1
+		if self._y == -10:
 			self._delete = 1
 
 		if self.__dir:
-			self.__x += 1
-			if self.__x == 25:
+			self._x += 1
+			if self._x == 25:
 				self.__dir = 0
 		else:
-			self.__x -= 1
-			if self.__x == 10:
+			self._x -= 1
+			if self._x == 10:
 				self.__dir = 1
 
-	def get_delete(self):
-		return self._delete
-
-	def delt(self):
-		self._delete = 1
-
-class Boost(Parent2):
+class Boost(Parent2,Parent_Func):
 
 	def __init__(self,x,y):
-		self.__rows = len(ascii_boost)
-		self.__columns = len(ascii_boost[0])
-		self.__image = ascii_boost
-		self.__x = x
-		self.__y = y
+		self._rows = len(ascii_boost)
+		self._columns = len(ascii_boost[0])
+		self._image = ascii_boost
+		self._x = x
+		self._y = y
 		self._delete = 0
-		self.__name = "boost"
+		self._name = "boost"
 		self.__dir = 1
-		self.__priority = priorities["boost"]
-
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
+		self._priority = priorities["boost"]
 
 	def move(self):
-		self.__y -= 1
-		if self.__y == -10:
+		self._y -= 1
+		if self._y == -10:
 			self._delete = 1
 
 		if self.__dir:
-			self.__x += 1
-			if self.__x == 25:
+			self._x += 1
+			if self._x == 25:
 				self.__dir = 0
 		else:
-			self.__x -= 1
-			if self.__x == 10:
+			self._x -= 1
+			if self._x == 10:
 				self.__dir = 1
 
-	def get_delete(self):
-		return self._delete
-
-	def delt(self):
-		self._delete = 1
-
-class Shield:
+class Shield(Parent_Func):
 
 	def __init__(self,x):
-		self.__rows = len(ascii_shield)
-		self.__columns = len(ascii_shield[0])
-		self.__image = ascii_shield
-		self.__x = 0
-		self.__y = 0
-		self.__delete = 0
-		self.__name = "shield"
-		self.__priority = priorities["shield"]
+		self._rows = len(ascii_shield)
+		self._columns = len(ascii_shield[0])
+		self._image = ascii_shield
+		self._x = 0
+		self._y = 0
+		self._delete = 0
+		self._name = "shield"
+		self._priority = priorities["shield"]
 		self.__shield_ini_time = x
 		self.__shield_time = SHIELD_TIME
 
@@ -522,51 +356,24 @@ class Shield:
 		pass
 
 	def update_shield(self,x,y,t):
-		self.__x = x
-		self.__y = y
+		self._x = x
+		self._y = y
 		if self.__shield_ini_time - self.__shield_time > t:
-			self.__delete = 1
+			self._delete = 1
 			return 0
 		return 1
 
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
-
-	def get_delete(self):
-		return self.__delete
-
-	def delt(self):
-		self.__delete = 1
-
-class Dragon:
+class Dragon(Parent_Func):
 
 	def __init__(self,x,y):
-		self.__rows = len(ascii_dragon)
-		self.__columns = len(ascii_dragon[0])
-		self.__image = ascii_dragon
-		self.__x = x
-		self.__y = y
-		self.__delete = 0
-		self.__name = "dragon"
-		self.__priority = priorities["dragon"]
+		self._rows = len(ascii_dragon)
+		self._columns = len(ascii_dragon[0])
+		self._image = ascii_dragon
+		self._x = x
+		self._y = y
+		self._delete = 0
+		self._name = "dragon"
+		self._priority = priorities["dragon"]
 		self.__dragon_time = DRAG_TIME
 		self.__dragt = DRAG_TIME
 		self.__lives = DRAGON_LIVES
@@ -581,10 +388,10 @@ class Dragon:
 				if obj.get_y()+k>=0 and obj.get_y()+k<obj.get_c() and obj.get_image()[j][k]!=' ':
 					arr[obj.get_x()+j][obj.get_y()+k] = 1
 
-		for j in range(self.__rows):
-			for k in range(self.__columns):
-				if self.__x+j>=0 and self.__x+j<obj.get_r() and self.__y+k>=0 and self.__y+k<obj.get_c() and self.__image[j][k]!=' ':
-					if arr[self.__x+j][self.__y+k]==1:
+		for j in range(self._rows):
+			for k in range(self._columns):
+				if self._x+j>=0 and self._x+j<obj.get_r() and self._y+k>=0 and self._y+k<obj.get_c() and self._image[j][k]!=' ':
+					if arr[self._x+j][self._y+k]==1:
 						return 1
 		return 0
 
@@ -594,44 +401,17 @@ class Dragon:
 	def move_dragon(self,x,arr):
 		self.__dragon_time -= 1
 		if self.__dragon_time == 0:
-			arr.append(Ice_ball(self.__x + 9,self.__y - 1))
+			arr.append(Ice_ball(self._x + 9,self._y - 1))
 			self.__dragon_time = self.__dragt
-		if self.__x + 7 > x.get_x() and self.__x > 1:
-			self.__x -= 1
+		if self._x + 7 > x.get_x() and self._x > 1:
+			self._x -= 1
 			return 1
 
-		if self.__x + 7 < x.get_x() and self.__x < 19:
-			self.__x += 1
+		if self._x + 7 < x.get_x() and self._x < 19:
+			self._x += 1
 			return 1
 
 		return 0
-
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
-
-	def get_delete(self):
-		return self.__delete
-
-	def delt(self):
-		self.__delete = 1
 
 	def get_lives(self):
 		return self.__lives
@@ -639,17 +419,17 @@ class Dragon:
 	def dec_lives(self):
 		self.__lives -= 1
 
-class Magnet_Assignment:
+class Magnet_Assignment(Parent_Func):
 
 	def __init__(self,x,y):
-		self.__rows = len(ascii_magnet2)
-		self.__columns = len(ascii_magnet2[0])
-		self.__image = ascii_magnet2
-		self.__x = x
-		self.__y = y
-		self.__delete = 0
-		self.__name = "magnet2"
-		self.__priority = priorities["magnet2"]
+		self._rows = len(ascii_magnet2)
+		self._columns = len(ascii_magnet2[0])
+		self._image = ascii_magnet2
+		self._x = x
+		self._y = y
+		self._delete = 0
+		self._name = "magnet2"
+		self._priority = priorities["magnet2"]
 		self.__force = 5
 		self.__cnt = 0
 
@@ -663,52 +443,25 @@ class Magnet_Assignment:
 				if obj.get_y()+k>=0 and obj.get_y()+k<obj.get_c() and obj.get_image()[j][k]!=' ':
 					arr[obj.get_x()+j][obj.get_y()+k] = 1
 
-		for j in range(self.__rows):
-			for k in range(self.__columns):
-				if self.__x+j>=0 and self.__x+j<obj.get_r() and self.__y+k>=0 and self.__y+k<obj.get_c() and self.__image[j][k]!=' ':
-					if arr[self.__x+j][self.__y+k]==1:
+		for j in range(self._rows):
+			for k in range(self._columns):
+				if self._x+j>=0 and self._x+j<obj.get_r() and self._y+k>=0 and self._y+k<obj.get_c() and self._image[j][k]!=' ':
+					if arr[self._x+j][self._y+k]==1:
 						return 1
 		return 0
 
 	def move(self,x):
 		self.move_mand_magnet(x)
 		self.__cnt += 1
-		self.__y -= 1
-		if self.__y == -10:
-			self.__delete = 1
-
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
-
-	def get_delete(self):
-		return self.__delete
-
-	def delt(self):
-		self.__delete = 1
+		self._y -= 1
+		if self._y == -10:
+			self._delete = 1
 
 	def move_mand_magnet(self,x):
 		if self.__cnt % self.__force != 0:
 			return 0
-		a = x.get_x() - self.__x
-		b = x.get_y() - self.__y
+		a = x.get_x() - self._x
+		b = x.get_y() - self._y
 		if b > 0:
 			x.move_left()
 		else:
@@ -719,25 +472,25 @@ class Magnet_Assignment:
 			x.move_down()
 		return 1
 
-class Ice_ball:
+class Ice_ball(Parent_Func):
 
 	def __init__(self,x,y):
-		self.__rows = len(ascii_ice_ball)
-		self.__columns = len(ascii_ice_ball[0])
+		self._rows = len(ascii_ice_ball)
+		self._columns = len(ascii_ice_ball[0])
 		self.__r = ROWS
 		self.__c = COLUMNS
-		self.__image = ascii_ice_ball
-		self.__x = x
-		self.__y = y
-		self.__delete = 0
-		self.__name = "ice_ball"
+		self._image = ascii_ice_ball
+		self._x = x
+		self._y = y
+		self._delete = 0
+		self._name = "ice_ball"
 		self.__ball_speed = ICE_BALL_SPEED
-		self.__priority = priorities["ice_ball"]
+		self._priority = priorities["ice_ball"]
 
 	def move(self):
-		self.__y -= self.__ball_speed
-		if self.__y == -10:
-			self.__delete = 1
+		self._y -= self.__ball_speed
+		if self._y == -10:
+			self._delete = 1
 
 	def chk(self,obj):
 		arr = []
@@ -749,42 +502,9 @@ class Ice_ball:
 				if obj.get_y()+k>=0 and obj.get_y()+k<self.__c and obj.get_image()[j][k]!=' ':
 					arr[obj.get_x()+j][obj.get_y()+k] = 1
 
-		for j in range(self.__rows):
-			for k in range(self.__columns):
-				if self.__x+j>=0 and self.__x+j<self.__r and self.__y+k>=0 and self.__y+k<self.__c and self.__image[j][k]!=' ':
-					if arr[self.__x+j][self.__y+k]==1:
+		for j in range(self._rows):
+			for k in range(self._columns):
+				if self._x+j>=0 and self._x+j<self.__r and self._y+k>=0 and self._y+k<self.__c and self._image[j][k]!=' ':
+					if arr[self._x+j][self._y+k]==1:
 						return 1
 		return 0
-
-	def get_priority(self):
-		return self.__priority
-
-	def get_x(self):
-		return self.__x
-
-	def get_y(self):
-		return self.__y
-
-	def get_rows(self):
-		return self.__rows
-
-	def get_columns(self):
-		return self.__columns
-
-	def get_image(self):
-		return self.__image
-
-	def get_name(self):
-		return self.__name
-
-	def get_r(self):
-		return self.__r
-
-	def get_c(self):
-		return self.__c
-
-	def get_delete(self):
-		return self.__delete
-
-	def delt(self):
-		self.__delete = 1
