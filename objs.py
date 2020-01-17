@@ -526,6 +526,8 @@ class Shield:
 		self.__y = y
 		if self.__shield_ini_time - self.__shield_time > t:
 			self.__delete = 1
+			return 0
+		return 1
 
 	def get_priority(self):
 		return self.__priority

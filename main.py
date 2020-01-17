@@ -62,7 +62,6 @@ if __name__ == "__main__":
 		if cnt4 == 300:
 			cnt4 = 0
 			x = randint(0,2)
-			x = 1
 			if x==0:
 				obj_arr.append(Magnet(10,120))
 			elif x==1:
