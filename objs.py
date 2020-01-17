@@ -276,7 +276,7 @@ class Bars(Parent):
 
 	def move(self):
 		self.__y -= 1
-		if self.__y == -10:
+		if self.__y == -20:
 			self.__delete = 1
 
 	def get_priority(self):
@@ -569,6 +569,7 @@ class Dragon:
 		self.__priority = priorities["dragon"]
 		self.__dragon_time = DRAG_TIME
 		self.__dragt = DRAG_TIME
+		self.__lives = DRAGON_LIVES
 
 	def chk(self,obj):
 		arr = []
@@ -631,6 +632,12 @@ class Dragon:
 
 	def delt(self):
 		self.__delete = 1
+
+	def get_lives(self):
+		return self.__lives
+
+	def dec_lives(self):
+		self.__lives -= 1
 
 class Magnet_Assignment:
 
@@ -724,7 +731,7 @@ class Ice_ball:
 		self.__y = y
 		self.__delete = 0
 		self.__name = "ice_ball"
-		self.__ball_speed = BALL_SPEED
+		self.__ball_speed = ICE_BALL_SPEED
 		self.__priority = priorities["ice_ball"]
 
 	def move(self):

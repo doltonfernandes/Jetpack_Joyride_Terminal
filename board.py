@@ -113,6 +113,16 @@ class Board:
 					arr[arr2[j]].delt()
 					self.__score += 2
 
+		arr2 = []
+		for i in range(1,len(arr)):
+			if arr[i].get_name()=="dragon":
+				arr2.append(i)
+		if len(arr2):
+			for i in range(len(arr1)):
+				if arr[arr1[i]].chk(arr[arr2[0]]):
+					arr[arr1[i]].delt()
+					arr[arr2[0]].dec_lives()
+
 		arr1 = []
 
 		for i in range(1,len(arr)):
@@ -123,6 +133,7 @@ class Board:
 			if arr[arr1[i]].chk(arr[0]):
 				arr[arr1[i]].delt()
 				self.__lives -= 1
+
 		return 0
 
 	def update_board(self,arr):
@@ -136,6 +147,8 @@ class Board:
 		tmparr = []
 
 		self.check_ball(arr)
+
+		l1 = []
 
 		for i in range(1,len(arr)):
 			if arr[i].get_name()=="coin" and arr[i].chk(arr[0]):
@@ -161,6 +174,7 @@ class Board:
 			else:
 				if arr[i].get_name()=="dragon":
 					arr[i].move_dragon(arr[0],arr)
+					l1.append(arr[i])
 				elif arr[i].get_name()=="magnet2":
 					arr[i].move(arr[0])
 				else:
@@ -185,19 +199,33 @@ class Board:
 		if self.__speed_boost_time > 0:
 			self.__speed_boost_time -= 1
 		if self.__lives == 0 or self.__time == 0:
-			self.exit_game()
+			self.exit_game(0)
+		if len(l1):
+			if l1[0].get_lives() == 0:
+				self.exit_game(1)
 		self.print_board()
 
-	def add_game_over(self):
-		s = "GAME OVER"
+	def add_game_over(self,x):
+		s = "GAME  OVER"
 		arr = []
 		for i in s:
 			arr.append(i)
 			arr.append(" ")
 		self.__board_arr[13:14,50:50+len(arr)] = arr
+		if x:
+			s = "YOU WIN"
+			f = 1
+		else:
+			s = "YOU LOSE"
+			f = 0
+		arr = []
+		for i in s:
+			arr.append(i)
+			arr.append(" ")
+		self.__board_arr[14:15,52+f:52+f+len(arr)] = arr
 
-	def exit_game(self):
-		self.add_game_over()
+	def exit_game(self,x):
+		self.add_game_over(x)
 		self.print_board()
 		exit()
 

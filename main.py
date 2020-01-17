@@ -17,8 +17,6 @@ obj_arr = []
 x = Jet_Boy()
 x.jb_init()
 obj_arr.append(x)
-# 5 18
-# obj_arr.append(Dragon(5,76))
 
 if __name__ == "__main__":
 	print_welcome_screen()
@@ -29,6 +27,7 @@ if __name__ == "__main__":
 	cnt2 = 0
 	cnt3 = 0
 	cnt4 = 0
+	f = 1
 	while 1:
 		Main_Board.update_board(obj_arr)
 		fr = Main_Board.get_fr()
@@ -42,12 +41,17 @@ if __name__ == "__main__":
 		cnt3 += 1
 		cnt4 += 1
 		lim = 40
+		if Main_Board.get_time() == DRAGON_ENTER_TIME and f:
+			obj_arr.append(Dragon(5,76))
+			f = 0
 		if cnt == FRAME_RATE:
 			Main_Board.update_time()
 			cnt = 0
 		if cnt2 == 6:
 			cnt2 = 0
 			obj_arr[0].move_down()
+		if Main_Board.get_time() < DRAGON_ENTER_TIME + 6:
+			continue
 		if cnt3 == 17:
 			cnt3 = 0
 			obj_arr.append(Coin(randint(6,27),120))
