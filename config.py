@@ -16,6 +16,7 @@ MAGNET_TIME = 8
 SHOOT_TIME = 2
 SPEED_BOOST_TIME = 8
 SHIELD_TIME = 10
+DRAG_TIME = 60
 
 priorities  = {
 	"mandalorian":0,
@@ -27,5 +28,6 @@ priorities  = {
 	"boost":3,
 	"ball":6,
 	"dragon":8,
-	"magnet2":4
+	"magnet2":4,
+	"ice_ball":6
 }

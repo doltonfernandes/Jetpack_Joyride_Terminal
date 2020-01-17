@@ -112,6 +112,17 @@ class Board:
 					arr[arr1[i]].delt()
 					arr[arr2[j]].delt()
 					self.__score += 2
+
+		arr1 = []
+
+		for i in range(1,len(arr)):
+			if arr[i].get_name()=="ice_ball":
+				arr1.append(i)
+
+		for i in range(len(arr1)):
+			if arr[arr1[i]].chk(arr[0]):
+				arr[arr1[i]].delt()
+				self.__lives -= 1
 		return 0
 
 	def update_board(self,arr):
@@ -149,7 +160,7 @@ class Board:
 				arr[i].move_magnet(arr[0])
 			else:
 				if arr[i].get_name()=="dragon":
-					arr[i].move_dragon(arr[0])
+					arr[i].move_dragon(arr[0],arr)
 				elif arr[i].get_name()=="magnet2":
 					arr[i].move(arr[0])
 				else:

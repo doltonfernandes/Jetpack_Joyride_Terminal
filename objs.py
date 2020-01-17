@@ -323,7 +323,7 @@ class ball:
 
 	def move(self):
 		self.__y += self.__ball_speed
-		if self.__y>120:
+		if self.__y > 120:
 			self.__delete = 1
 
 	def chk(self,obj):
@@ -567,6 +567,8 @@ class Dragon:
 		self.__delete = 0
 		self.__name = "dragon"
 		self.__priority = priorities["dragon"]
+		self.__dragon_time = DRAG_TIME
+		self.__dragt = DRAG_TIME
 
 	def chk(self,obj):
 		arr = []
@@ -588,8 +590,11 @@ class Dragon:
 	def move(self,x):
 		pass
 
-	def move_dragon(self,x):
-
+	def move_dragon(self,x,arr):
+		self.__dragon_time -= 1
+		if self.__dragon_time == 0:
+			arr.append(Ice_ball(self.__x + 9,self.__y - 1))
+			self.__dragon_time = self.__dragt
 		if self.__x + 7 > x.get_x() and self.__x > 1:
 			self.__x -= 1
 			return 1
@@ -706,3 +711,73 @@ class Magnet_Assignment:
 		else:
 			x.move_down()
 		return 1
+
+class Ice_ball:
+
+	def __init__(self,x,y):
+		self.__rows = len(ascii_ice_ball)
+		self.__columns = len(ascii_ice_ball[0])
+		self.__r = ROWS
+		self.__c = COLUMNS
+		self.__image = ascii_ice_ball
+		self.__x = x
+		self.__y = y
+		self.__delete = 0
+		self.__name = "ice_ball"
+		self.__ball_speed = BALL_SPEED
+		self.__priority = priorities["ice_ball"]
+
+	def move(self):
+		self.__y -= self.__ball_speed
+		if self.__y == -10:
+			self.__delete = 1
+
+	def chk(self,obj):
+		arr = []
+		for i in range(self.__r):
+			arr.append([0]*self.__c)
+
+		for j in range(obj.get_rows()):
+			for k in range(obj.get_columns()):
+				if obj.get_y()+k>=0 and obj.get_y()+k<self.__c and obj.get_image()[j][k]!=' ':
+					arr[obj.get_x()+j][obj.get_y()+k] = 1
+
+		for j in range(self.__rows):
+			for k in range(self.__columns):
+				if self.__x+j>=0 and self.__x+j<self.__r and self.__y+k>=0 and self.__y+k<self.__c and self.__image[j][k]!=' ':
+					if arr[self.__x+j][self.__y+k]==1:
+						return 1
+		return 0
+
+	def get_priority(self):
+		return self.__priority
+
+	def get_x(self):
+		return self.__x
+
+	def get_y(self):
+		return self.__y
+
+	def get_rows(self):
+		return self.__rows
+
+	def get_columns(self):
+		return self.__columns
+
+	def get_image(self):
+		return self.__image
+
+	def get_name(self):
+		return self.__name
+
+	def get_r(self):
+		return self.__r
+
+	def get_c(self):
+		return self.__c
+
+	def get_delete(self):
+		return self.__delete
+
+	def delt(self):
+		self.__delete = 1
