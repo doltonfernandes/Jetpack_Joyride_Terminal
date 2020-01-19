@@ -93,6 +93,8 @@ class Jet_Boy(Person,Parent_Func):
 		self._image = ascii_mandalorian
 		self.__vsp = VER_SPEED
 		self.__hsp = HOR_SPEED
+		self.__uplast = 0
+		self.__interval = 0
 		self._name = "mandalorian"
 		self.__hurt = 1
 		self.__fr = FRAME_RATE
