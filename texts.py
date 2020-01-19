@@ -21,8 +21,11 @@ ___  ____ _    ___ ____ _  _    ____ ____ ____ _  _ ____ _  _ ___  ____ ____
                                                                              
 """
 
-def print_welcome_screen():
-	print(jj)
-	print(by,end="")
-	print(df)
-	print("(Press Enter to continue)")
+class Welcome:
+	def print_welcome_screen(self):
+		print(jj)
+		print(by,end="")
+		print(df)
+		print("(Press Enter to continue)")
+
+Wel = Welcome()
