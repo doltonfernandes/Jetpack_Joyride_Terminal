@@ -19,6 +19,7 @@ class Board:
 		self.__fr = FRAME_RATE
 		self.__speed_boost_time = 0
 		self.__shield = 0
+		self.__dec_lives = 0
 
 	def check_prints(self,i,j):
 		if self.__board_arr[i][j] == 'y':
@@ -166,8 +167,9 @@ class Board:
 				self.__score += 5
 				tmparr.append(i)
 				continue
-			if (arr[i].get_name()=="bar" or arr[i].get_name()=="enemy") and arr[i].chk(arr[0]) and self.__shield==0:
+			if (arr[i].get_name()=="bar" or arr[i].get_name()=="enemy") and arr[i].chk(arr[0]) and self.__shield==0 and self.__dec_lives==0:
 				self.__lives -= 1
+				self.__dec_lives = 30
 			if arr[i].get_name()=="magnet":
 				if arr[i].chk(arr[0]):
 					self.__mag_time += (MAGNET_TIME*FRAME_RATE)
@@ -204,6 +206,8 @@ class Board:
 			k += 1
 
 		self.update_corner(self.__board_arr)
+		if self.__dec_lives > 0:
+			self.__dec_lives -= 1
 		if self.__mag_time > 0:
 			self.__mag_time -= 1
 		if arr[0].get_can_shoot() > 0:

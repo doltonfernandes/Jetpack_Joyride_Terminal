@@ -93,8 +93,8 @@ class Jet_Boy(Person,Parent_Func):
 		self._image = ascii_mandalorian
 		self.__vsp = VER_SPEED
 		self.__hsp = HOR_SPEED
-		self.__uplast = 0
-		self.__interval = 0
+		self.__uplast = TIME
+		self.__interval1 = 0
 		self._name = "mandalorian"
 		self.__hurt = 1
 		self.__fr = FRAME_RATE
@@ -115,8 +115,8 @@ class Jet_Boy(Person,Parent_Func):
 			self._x+=self.__vsp
 
 	def move_up(self):
-		if self._x-self.__vsp>4:
-			self._x-=self.__vsp
+		if self._x-self.__vsp-self.__interval1>4:
+			self._x-=self.__vsp + int(self.__interval1)
 
 	def shoot(self,arr):
 		if self.__can_shoot == 0:
@@ -128,6 +128,11 @@ class Jet_Boy(Person,Parent_Func):
 
 	def check_char(self,x,arr,t):
 		if x=='w':
+			if self.__uplast - t > 1:
+				self.__uplast = t
+				self.__interval1 = 0
+			else:
+				self.__interval1 += 0.25
 			self.move_up()
 		elif x==' ':
 			self.add_shield(arr,t)
