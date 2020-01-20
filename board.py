@@ -1,3 +1,4 @@
+from os import system
 import sys,numpy
 from config import *
 from colorama import Fore, Back, Style, init, deinit
@@ -243,6 +244,7 @@ class Board:
 	def exit_game(self,x):
 		self.add_game_over(x)
 		self.print_board()
+		system("stty echo");
 		exit()
 
 	def update_time(self):

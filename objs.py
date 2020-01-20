@@ -1,3 +1,4 @@
+from os import system
 from config import *
 from ascii_stuff import *
 import numpy
@@ -143,6 +144,7 @@ class Jet_Boy(Person,Parent_Func):
 		elif x=='l':
 			self.shoot(arr)
 		elif x=='Q':
+			system("stty echo");
 			exit()
 
 	def get_can_shoot(self):

@@ -6,6 +6,7 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
+system("stty -echo")
 system("clear")
 
 if __name__ == "__main__":
