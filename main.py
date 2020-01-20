@@ -6,10 +6,10 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-system("stty -echo")
-system("clear")
 
 if __name__ == "__main__":
+	system("stty -echo")
+	system("clear")
 	Wel.print_welcome_screen()
 	inp = input()
 	system("clear")
