@@ -145,6 +145,7 @@ class Jet_Boy(Person,Parent_Func):
 			self.shoot(arr)
 		elif x=='Q':
 			system("stty echo");
+			system("killall mpg123")
 			exit()
 
 	def get_can_shoot(self):

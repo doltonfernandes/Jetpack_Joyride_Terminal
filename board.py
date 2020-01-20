@@ -245,6 +245,7 @@ class Board:
 		self.add_game_over(x)
 		self.print_board()
 		system("stty echo");
+		system("killall mpg123")
 		exit()
 
 	def update_time(self):
