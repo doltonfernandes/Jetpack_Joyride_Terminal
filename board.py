@@ -191,7 +191,7 @@ class Board:
 					l1.append(arr[i])
 					self.update_corner2(self.__board_arr,arr[i].get_lives())
 				elif arr[i].get_name()=="magnet2":
-					arr[i].move(arr[0])
+					arr[i].move(arr[0],self.__time)
 				else:
 					arr[i].move()
 			if arr[i].get_delete() == 1:
@@ -221,8 +221,6 @@ class Board:
 			if l1[0].get_lives() == 0:
 				self.exit_game(1)
 		self.print_board()
-		# print()
-		# print(arr[0].gett())
 
 	def add_game_over(self,x):
 		s = "GAME  OVER"
@@ -230,7 +228,8 @@ class Board:
 		for i in s:
 			arr.append(i)
 			arr.append(" ")
-		self.__board_arr[13:14,50:50+len(arr)] = arr
+			
+		self.__board_arr[20:21,80:80+len(arr)] = arr
 		if x:
 			s = "YOU WIN"
 			f = 1
@@ -241,7 +240,7 @@ class Board:
 		for i in s:
 			arr.append(i)
 			arr.append(" ")
-		self.__board_arr[14:15,52+f:52+f+len(arr)] = arr
+		self.__board_arr[21:22,82+f:82+f+len(arr)] = arr
 
 	def exit_game(self,x):
 		self.add_game_over(x)

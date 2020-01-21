@@ -49,7 +49,7 @@ class Game:
 		self.__cnt4 += 1
 
 	def check1(self):
-		if self.__cnt == 6:
+		if self.__cnt == 5:
 			Main_Board.update_time()
 			self.__cnt = 0
 
@@ -74,7 +74,6 @@ class Game:
 		if self.__cnt4 == 300:
 			self.__cnt4 = 0
 			x = randint(0,2)
-			x = 1
 			if x==0:
 				self.__obj_arr.append(Magnet(15,200))
 			elif x==1:

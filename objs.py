@@ -474,14 +474,14 @@ class Magnet_Assignment(Parent_Func):
 						return 1
 		return 0
 
-	def move(self,x):
-		self.move_mand_magnet(x)
+	def move(self,x,t):
+		self.move_mand_magnet(x,t)
 		self.__cnt += 1
 		self._y -= 1
 		if self._y == -10:
 			self._delete = 1
 
-	def move_mand_magnet(self,x):
+	def move_mand_magnet(self,x,t):
 		if self.__cnt % self.__force != 0:
 			return 0
 		a = x.get_x() - self._x
@@ -492,8 +492,8 @@ class Magnet_Assignment(Parent_Func):
 			x.move_right()
 		if a > 0:
 			x.move_up()
-		# else:
-		# 	x.move_down()
+		else:
+			x.move_down(t)
 		return 1
 
 class Ice_ball(Parent_Func):
