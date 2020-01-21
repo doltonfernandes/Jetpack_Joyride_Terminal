@@ -31,7 +31,7 @@ class Game:
 			self.__obj_arr[0].check_char(x,self.__obj_arr,Main_Board.get_time())
 			self.increment()
 			if Main_Board.get_time() == DRAGON_ENTER_TIME and f:
-				self.__obj_arr.append(Dragon(5,76))
+				self.__obj_arr.append(Dragon(5,155))
 				f = 0
 			self.check1()
 			self.gravity()
@@ -49,38 +49,37 @@ class Game:
 		self.__cnt4 += 1
 
 	def check1(self):
-		if self.__cnt == FRAME_RATE:
+		if self.__cnt == 6:
 			Main_Board.update_time()
 			self.__cnt = 0
 
 	def gravity(self):
-		if self.__cnt2 == 6:
-			self.__cnt2 = 0
-			self.__obj_arr[0].move_down()
+		self.__obj_arr[0].move_down(Main_Board.get_time())
 
 	def add_coin(self):
 		if self.__cnt3 == 17:
 			self.__cnt3 = 0
-			self.__obj_arr.append(Coin(randint(6,27),120))
+			self.__obj_arr.append(Coin(randint(6,40),200))
 
 	def add_bars_and_enemies(self):
 		if self.__cnt1 == 40:
 			self.__cnt1 = 0
-			self.__obj_arr.append(Bars(randint(6,18),120,randint(0,3)))
-			if randint(0,1):
+			self.__obj_arr.append(Bars(randint(6,27),200,randint(0,3)))
+			if randint(0,1) or True:
 				x = Enemy()
-				x.enemy_init(29,120)
+				x.enemy_init(40,200)
 				self.__obj_arr.append(x)
 
 	def add_magnets_and_boost(self):
 		if self.__cnt4 == 300:
 			self.__cnt4 = 0
 			x = randint(0,2)
+			x = 1
 			if x==0:
-				self.__obj_arr.append(Magnet(10,120))
+				self.__obj_arr.append(Magnet(15,200))
 			elif x==1:
-				self.__obj_arr.append(Magnet_Assignment(randint(7,28),120))
+				self.__obj_arr.append(Magnet_Assignment(randint(7,38),200))
 			else:
-				self.__obj_arr.append(Boost(10,120))
+				self.__obj_arr.append(Boost(15,200))
 
 game = Game()

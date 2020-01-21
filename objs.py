@@ -87,7 +87,7 @@ class Enemy(Person,Parent_Func):
 class Jet_Boy(Person,Parent_Func):
 
 	def jb_init(self):
-		self._x = 29
+		self._x = 40
 		self._y = 10
 		self._rows = len(ascii_mandalorian)
 		self._columns = len(ascii_mandalorian[0])
@@ -96,6 +96,7 @@ class Jet_Boy(Person,Parent_Func):
 		self.__hsp = HOR_SPEED
 		self.__uplast = TIME
 		self.__interval1 = 0
+		self.__interval2 = 0
 		self._name = "mandalorian"
 		self.__hurt = 1
 		self.__fr = FRAME_RATE
@@ -111,13 +112,23 @@ class Jet_Boy(Person,Parent_Func):
 		if self._y-self.__hsp>=0:
 			self._y-=self.__hsp
 
-	def move_down(self):
-		if self._x+self.__vsp+4<self._r:
-			self._x+=self.__vsp
+	def move_down(self,t):
+		if self.__uplast - t <= 1:
+			self.__interval2 = 0
+			return 0
+		if self.__interval2 < 10:
+			self.__interval2 += 0.5
+		if self._x+self.__vsp+int(self.__interval2)+9<self._r:
+			self._x+=self.__vsp+int(self.__interval2)
+		else:
+			self._x = 40
+		return 1
 
 	def move_up(self):
 		if self._x-self.__vsp-self.__interval1>4:
 			self._x-=self.__vsp + int(self.__interval1)
+		else:
+			self._x = 6
 
 	def shoot(self,arr):
 		if self.__can_shoot == 0:
@@ -133,7 +144,7 @@ class Jet_Boy(Person,Parent_Func):
 				self.__uplast = t
 				self.__interval1 = 0
 			else:
-				self.__interval1 += 0.25
+				self.__interval1 += 0.5
 			self.move_up()
 		elif x==' ':
 			self.add_shield(arr,t)
@@ -153,6 +164,9 @@ class Jet_Boy(Person,Parent_Func):
 
 	def dec_shoot(self):
 		self.__can_shoot -= 1
+
+	def gett(self):
+		return self.__interval2
 
 class Cloud:
 
@@ -254,7 +268,7 @@ class ball(Parent_Func):
 
 	def move(self):
 		self._y += self.__ball_speed
-		if self._y > 120:
+		if self._y > 200:
 			self._delete = 1
 
 	def chk(self,obj):
@@ -417,7 +431,7 @@ class Dragon(Parent_Func):
 			self._x -= 1
 			return 1
 
-		if self._x + 7 < x.get_x() and self._x < 19:
+		if self._x + 7 < x.get_x() and self._x < 30:
 			self._x += 1
 			return 1
 
@@ -478,8 +492,8 @@ class Magnet_Assignment(Parent_Func):
 			x.move_right()
 		if a > 0:
 			x.move_up()
-		else:
-			x.move_down()
+		# else:
+		# 	x.move_down()
 		return 1
 
 class Ice_ball(Parent_Func):

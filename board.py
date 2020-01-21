@@ -96,14 +96,14 @@ class Board:
 
 	def update_corner2(self,arr,x):
 		li = ['L','I','V','E','S',' ','=']
-		lol = 105
+		lol = 184
 		arr[1:2,lol:len(li)+lol] = li
 		tmp = self.get_num_str(x)
 		arr[1:2,len(li)+1+lol] = '❤'
 		arr[1:2,len(li)+3+lol] = 'x'
 		arr[1:2,len(li)+4+lol:len(li)+4+len(tmp)+lol] = tmp
-		arr[0:3,102:103] = 'w'
-		arr[3:4,102:120] = 'w'
+		arr[0:3,180:181] = 'w'
+		arr[3:4,180:200] = 'w'
 
 	def check_ball(self,arr):
 		arr1 = []
@@ -221,6 +221,8 @@ class Board:
 			if l1[0].get_lives() == 0:
 				self.exit_game(1)
 		self.print_board()
+		# print()
+		# print(arr[0].gett())
 
 	def add_game_over(self,x):
 		s = "GAME  OVER"
