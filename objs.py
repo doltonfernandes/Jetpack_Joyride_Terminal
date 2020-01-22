@@ -104,6 +104,7 @@ class Jet_Boy(Person,Parent_Func):
 		self.__can_shoot = 0
 		self._priority = priorities["mandalorian"]
 		self.__shield_time = 0
+		self.__par = 0
 
 	def move_right(self):
 		if self._y+self.__hsp<self._c:
@@ -122,7 +123,7 @@ class Jet_Boy(Person,Parent_Func):
 		if self._x+self.__vsp+int(self.__interval2)+9<self._r:
 			self._x+=self.__vsp+int(self.__interval2)
 		else:
-			self._x = 40
+			self._x = 40 - self.__par
 		return 1
 
 	def move_up(self):
@@ -140,7 +141,7 @@ class Jet_Boy(Person,Parent_Func):
 		if arr[0].__shield_time >= 60:
 			arr.append(Shield(t))
 
-	def check_char(self,x,arr,t):
+	def check_char(self,neckarr,x,arr,t):
 		if x=='w':
 			self.__interval2 = 0
 			if self.__uplast - t > 1:
@@ -157,6 +158,10 @@ class Jet_Boy(Person,Parent_Func):
 			self.move_right()
 		elif x=='l':
 			self.shoot(arr)
+		elif x=='0':
+			self.switch_to(1)
+			for i in range(20):
+				neckarr.append(Dragon_neck(self._x,self._y))
 		elif x=='Q':
 			system("stty echo");
 			system("killall mpg123")
@@ -178,8 +183,17 @@ class Jet_Boy(Person,Parent_Func):
 	def reset_shield_time(self):
 		self.__shield_time = 0
 
-	def gett(self):
-		return self.__interval2
+	def switch_to(self,x):
+		if x:
+			self._rows = len(ascii_dragon_head)
+			self._columns = len(ascii_dragon_head[0])
+			self._image = ascii_dragon_head
+			self.__par = 2
+		else:
+			self._rows = len(ascii_mandalorian)
+			self._columns = len(ascii_mandalorian[0])
+			self._image = ascii_mandalorian
+			self.__par = 0
 
 class Cloud:
 
@@ -551,3 +565,37 @@ class Ice_ball(Parent_Func):
 					if arr[self._x+j][self._y+k]==1:
 						return 1
 		return 0
+
+class Dragon_neck(Parent2,Parent_Func):
+
+	def __init__(self,x,y):
+		self._rows = len(ascii_dragon_neck)
+		self._columns = len(ascii_dragon_neck[0])
+		self._r = ROWS
+		self._c = COLUMNS
+		self._image = ascii_dragon_neck
+		self._x = x
+		self._y = y
+		self._delete = 0
+		self._name = "neck"
+		self._priority = priorities["neck"]
+		self.__deque = []
+		self.__lim = 100
+
+	def move(self,x,y):
+		if x > self._x:
+			self._x += min(4,x-self._x)
+		elif x < self._x:
+			self._x -= min(4,self._x-x)
+		if y > self._y:
+			self._y += min(4,y-self._y)
+		elif y < self._y:
+			self._y -= min(4,self._y-y)
+
+	def app(self,x,y):
+		if len(self.__deque) == self.__lim:
+			self.__deque.pop(0)
+		self.__deque.append([x,y])
+
+	def get_deque(self):
+		return self.__deque

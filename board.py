@@ -100,7 +100,7 @@ class Board:
 		tmp = self.get_num_str(k)
 		self.__board_arr[4:5,len(shd)+1+lol:len(shd)+1+len(tmp)+lol] = tmp
 		for i in range(self.__lives):
-			self.__board_arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "❤"
+			self.__board_arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "💖"
 
 	def update_corner2(self,arr,x):
 		li = ['L','I','V','E','S',' ','=']
@@ -157,7 +157,19 @@ class Board:
 
 		return 0
 
-	def update_board(self,arr):
+	def check_neck(self,neckarr,arr):
+		if neckarr == []:
+			return 0
+		for i in neckarr:
+			for j in range(1,len(arr)):
+				if arr[j].chk(i):
+					arr[j].delt()
+					if i.get_name()=="coin":
+						self.__score += 5
+					else:
+						self.__score += 2
+
+	def update_board(self,arr,neckarr):
 		
 		arr.sort(key=lambda x:x.get_priority())
 
@@ -171,6 +183,25 @@ class Board:
 
 		l1 = []
 		shld = []
+
+		if neckarr != []:
+			self.__shield = 1
+			neckarr[0].move(arr[0].get_x() + 2,arr[0].get_y() - 5)
+			neckarr[0].app(arr[0].get_x(),arr[0].get_y())
+			x = neckarr[0].get_deque()
+			for i in range(1,len(neckarr)):
+				if len(x) >= i + 1:
+					neckarr[i].move(x[len(x)-i-1][0]+2,x[len(x)-i-1][1]-(5*(i+1)))
+		else:
+			self.shield = 0
+
+		self.check_neck(neckarr,arr)
+
+		for i in range(len(neckarr)):
+			for j in range(neckarr[i].get_rows()):
+				for k in range(neckarr[i].get_columns()):
+					if neckarr[i].get_x()+j>=0 and neckarr[i].get_x()+j<self.__rows and neckarr[i].get_y()+k>=0 and neckarr[i].get_y()+k<self.__columns:
+						self.__board_arr[neckarr[i].get_x()+j][neckarr[i].get_y()+k] = neckarr[i].get_image()[j][k]
 
 		for i in range(1,len(arr)):
 			if arr[i].get_name()=="coin" and arr[i].chk(arr[0]):
@@ -235,8 +266,6 @@ class Board:
 			if l1[0].get_lives() == 0:
 				self.exit_game(1)
 		self.print_board()
-		print()
-		print(arr[0].gett())
 
 	def add_game_over(self,x):
 		s = "GAME  OVER"
