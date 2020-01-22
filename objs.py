@@ -97,6 +97,7 @@ class Jet_Boy(Person,Parent_Func):
 		self.__uplast = TIME
 		self.__interval1 = 0
 		self.__interval2 = 0
+		self.__fire_time = FIRE_TIME
 		self._name = "mandalorian"
 		self.__hurt = 1
 		self.__fr = FRAME_RATE
@@ -134,7 +135,7 @@ class Jet_Boy(Person,Parent_Func):
 
 	def shoot(self,arr):
 		if self.__can_shoot == 0:
-			arr.append(ball(self._x+1,self._y+5))
+			arr.append(ball(self._x+1,self._y+5,0))
 			self.__can_shoot += (self.__fr*self.__shoot_time)
 
 	def add_shield(self,arr,t):
@@ -194,6 +195,19 @@ class Jet_Boy(Person,Parent_Func):
 			self._columns = len(ascii_mandalorian[0])
 			self._image = ascii_mandalorian
 			self.__par = 0
+
+	def get_par(self):
+		return self.__par
+
+	def update_fire_time(self,arr):
+		if self.__fire_time > 0:
+			self.__fire_time -= 1
+		else:
+			self.__fire_time = FIRE_TIME
+			arr.append(ball(self.get_x()+1,self.get_y()+5,1))
+
+	def gett(self):
+		return self.__fire_time
 
 class Cloud:
 
@@ -280,18 +294,23 @@ class Bars(Parent,Parent_Func):
 
 class ball(Parent_Func):
 
-	def __init__(self,x,y):
+	def __init__(self,x,y,z):
 		self._rows = len(ascii_ball)
 		self._columns = len(ascii_ball[0])
+		self._image = ascii_ball
 		self.__r = ROWS
 		self.__c = COLUMNS
-		self._image = ascii_ball
 		self._x = x
 		self._y = y
 		self._delete = 0
 		self._name = "ball"
 		self.__ball_speed = BALL_SPEED
 		self._priority = priorities["ball"]
+		if z:
+			self._rows = len(ascii_fireball)
+			self._columns = len(ascii_fireball[0])
+			self._image = ascii_fireball
+			self.__ball_speed += 2
 
 	def move(self):
 		self._y += self.__ball_speed

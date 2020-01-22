@@ -148,3 +148,10 @@ ascii_dragon_neck = [
 "|    |",
 "\\___/ "
 ]
+
+ascii_fireball = [
+"  v  ",
+" v n ",
+"m v h",
+"nhjvm"
+]

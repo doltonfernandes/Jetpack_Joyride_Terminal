@@ -20,6 +20,7 @@ DRAG_TIME = 15
 DRAGON_ENTER_TIME = TIME
 DRAGON_ENTER_TIME = TIME / 2 - 100
 DRAGON_LIVES = 10
+FIRE_TIME = 5
 
 priorities  = {
 	"mandalorian":0,

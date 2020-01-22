@@ -38,6 +38,21 @@ class Board:
 		if self.__board_arr[i][j]=='r':
 			print(Style.BRIGHT+Back.RED+' ',end="")
 			return 1
+		if self.__board_arr[i][j]=='v':
+			print(Style.BRIGHT+Fore.YELLOW+')',end="")
+			return 1
+		if self.__board_arr[i][j]=='n':
+			print(Style.BRIGHT+Fore.YELLOW+'\\',end="")
+			return 1
+		if self.__board_arr[i][j]=='m':
+			print(Style.BRIGHT+Fore.YELLOW+'/',end="")
+			return 1
+		if self.__board_arr[i][j]=='h':
+			print(Style.BRIGHT+Fore.YELLOW+'(',end="")
+			return 1
+		if self.__board_arr[i][j]=='j':
+			print(Style.BRIGHT+Fore.YELLOW+'_',end="")
+			return 1
 		return 0
 
 	def print_board(self):
@@ -164,10 +179,15 @@ class Board:
 			for j in range(1,len(arr)):
 				if arr[j].chk(i):
 					arr[j].delt()
-					if i.get_name()=="coin":
+					if arr[j].get_name()=="coin":
 						self.__score += 5
+					elif arr[j].get_name()=="ball":
+						continue
 					else:
-						self.__score += 2
+						self.__shield = 0
+						self.__dec_lives = 10
+						neckarr.clear()
+						arr[0].switch_to(0)
 
 	def update_board(self,arr,neckarr):
 		
@@ -246,6 +266,9 @@ class Board:
 		for i in tmparr:
 			arr.pop(i-k)
 			k += 1
+
+		if arr[0].get_par() > 0:
+			arr[0].update_fire_time(arr)
 
 		if self.__shield:
 			arr[0].reset_shield_time()
