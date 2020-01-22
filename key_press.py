@@ -19,9 +19,9 @@ class Key_press:
 	    c = ""
 	    now = datetime.now()
 
-	    while True: # main loop
-	        rl, wl, xl = select([sys.stdin], [], [], timeout)
-	        if rl: # some input
+	    while True:
+	        rl, tmp, tmp = select([sys.stdin], [], [], timeout)
+	        if rl:
 	            c = sys.stdin.read(1)
 	            bufr += c
 	            # stop if 1 character is taken as input
