@@ -106,6 +106,10 @@ class Jet_Boy(Person,Parent_Func):
 		self._priority = priorities["mandalorian"]
 		self.__shield_time = 0
 		self.__par = 0
+		self.__can_use_dragon = 0
+
+	def dragon_used(self):
+		self.__can_use_dragon = 1
 
 	def move_right(self):
 		if self._y+self.__hsp<self._c:
@@ -160,6 +164,8 @@ class Jet_Boy(Person,Parent_Func):
 		elif x=='l':
 			self.shoot(arr)
 		elif x=='0':
+			if self.__can_use_dragon:
+				return 1
 			self.switch_to(1)
 			for i in range(20):
 				neckarr.append(Dragon_neck(self._x,self._y))

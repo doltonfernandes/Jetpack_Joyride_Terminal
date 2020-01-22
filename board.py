@@ -181,13 +181,16 @@ class Board:
 					arr[j].delt()
 					if arr[j].get_name()=="coin":
 						self.__score += 5
-					elif arr[j].get_name()=="ball":
+					elif arr[j].get_name()=="ball" or arr[j].get_name()=="magnet" or arr[j].get_name()=="boost" or arr[j].get_name()=="magnet2":
 						continue
+					elif arr[j].get_name()=="enemy":
+						self.__score += 2
 					else:
 						self.__shield = 0
 						self.__dec_lives = 10
 						neckarr.clear()
 						arr[0].switch_to(0)
+						arr[0].dragon_used()
 
 	def update_board(self,arr,neckarr):
 		
