@@ -26,7 +26,7 @@ class Game:
 			Main_Board.update_board(self.__obj_arr)
 			fr = Main_Board.get_fr()
 			if Main_Board.get_speed_boost_time() > 0:
-				fr *= 4
+				fr *= 3
 			x = K.key_press(sys.argv[1:],1/fr)
 			self.__obj_arr[0].check_char(x,self.__obj_arr,Main_Board.get_time())
 			self.increment()
@@ -35,7 +35,7 @@ class Game:
 				f = 0
 			self.check1()
 			self.gravity()
-			if Main_Board.get_time() < DRAGON_ENTER_TIME + 6:
+			if Main_Board.get_time() < DRAGON_ENTER_TIME + 40:
 				continue
 			self.add_coin()
 			self.add_bars_and_enemies()
@@ -62,10 +62,10 @@ class Game:
 			self.__obj_arr.append(Coin(randint(6,40),200))
 
 	def add_bars_and_enemies(self):
-		if self.__cnt1 == 40:
+		if self.__cnt1 == 25:
 			self.__cnt1 = 0
-			self.__obj_arr.append(Bars(randint(6,27),200,randint(0,3)))
-			if randint(0,1) or True:
+			self.__obj_arr.append(Bars(randint(13,28),200,randint(0,3)))
+			if randint(0,1):
 				x = Enemy()
 				x.enemy_init(40,200)
 				self.__obj_arr.append(x)

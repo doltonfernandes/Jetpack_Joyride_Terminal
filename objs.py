@@ -64,7 +64,7 @@ class Enemy(Person,Parent_Func):
 
 	def move(self):
 		self._y -= self.__hsp
-		if self._y == -10:
+		if self._y <= -10:
 			self._delete = 1
 
 	def chk(self,obj):
@@ -103,6 +103,7 @@ class Jet_Boy(Person,Parent_Func):
 		self.__shoot_time = SHOOT_TIME
 		self.__can_shoot = 0
 		self._priority = priorities["mandalorian"]
+		self.__shield_time = 0
 
 	def move_right(self):
 		if self._y+self.__hsp<self._c:
@@ -117,7 +118,7 @@ class Jet_Boy(Person,Parent_Func):
 			self.__interval2 = 0
 			return 0
 		if self.__interval2 < 10:
-			self.__interval2 += 0.5
+			self.__interval2 += 0.3
 		if self._x+self.__vsp+int(self.__interval2)+9<self._r:
 			self._x+=self.__vsp+int(self.__interval2)
 		else:
@@ -132,19 +133,21 @@ class Jet_Boy(Person,Parent_Func):
 
 	def shoot(self,arr):
 		if self.__can_shoot == 0:
-			arr.append(ball(self._x,self._y+5))
+			arr.append(ball(self._x+1,self._y+5))
 			self.__can_shoot += (self.__fr*self.__shoot_time)
 
 	def add_shield(self,arr,t):
-		arr.append(Shield(t))
+		if arr[0].__shield_time >= 60:
+			arr.append(Shield(t))
 
 	def check_char(self,x,arr,t):
 		if x=='w':
+			self.__interval2 = 0
 			if self.__uplast - t > 1:
 				self.__uplast = t
 				self.__interval1 = 0
 			else:
-				self.__interval1 += 0.5
+				self.__interval1 += 0.6
 			self.move_up()
 		elif x==' ':
 			self.add_shield(arr,t)
@@ -165,6 +168,16 @@ class Jet_Boy(Person,Parent_Func):
 	def dec_shoot(self):
 		self.__can_shoot -= 1
 
+	def get_shield_time(self):
+		return self.__shield_time
+
+	def update_shield_time(self):
+		if self.__shield_time < 60:
+			self.__shield_time += 1
+
+	def reset_shield_time(self):
+		self.__shield_time = 0
+
 	def gett(self):
 		return self.__interval2
 
@@ -181,7 +194,7 @@ class Cloud:
 
 	def move(self):
 		self._y -= 1
-		if self._y == -10:
+		if self._y <= -10:
 			self._delete = 1
 
 class Parent:
@@ -231,7 +244,7 @@ class Coin(Parent,Parent_Func):
 					self._y -= 1
 	def move(self):
 		self._y -= 1
-		if self._y == -10:
+		if self._y <= -10:
 			self._delete = 1
 
 class Bars(Parent,Parent_Func):
@@ -323,16 +336,16 @@ class Magnet(Parent2,Parent_Func):
 
 	def move(self):
 		self._y -= 1
-		if self._y == -10:
+		if self._y <= -10:
 			self._delete = 1
 
 		if self.__dir:
 			self._x += 1
-			if self._x == 25:
+			if self._x >= 25:
 				self.__dir = 0
 		else:
 			self._x -= 1
-			if self._x == 10:
+			if self._x <= 10:
 				self.__dir = 1
 
 class Boost(Parent2,Parent_Func):
@@ -350,16 +363,16 @@ class Boost(Parent2,Parent_Func):
 
 	def move(self):
 		self._y -= 1
-		if self._y == -10:
+		if self._y <= -10:
 			self._delete = 1
 
 		if self.__dir:
 			self._x += 1
-			if self._x == 25:
+			if self._x >= 25:
 				self.__dir = 0
 		else:
 			self._x -= 1
-			if self._x == 10:
+			if self._x <= 10:
 				self.__dir = 1
 
 class Shield(Parent_Func):
@@ -386,6 +399,12 @@ class Shield(Parent_Func):
 			self._delete = 1
 			return 0
 		return 1
+
+	def get_shield_ini_time(self):
+		return self.__shield_ini_time
+
+	def get_shield_time(self):
+		return self.__shield_time
 
 class Dragon(Parent_Func):
 
@@ -478,7 +497,7 @@ class Magnet_Assignment(Parent_Func):
 		self.move_mand_magnet(x,t)
 		self.__cnt += 1
 		self._y -= 1
-		if self._y == -10:
+		if self._y <= -10:
 			self._delete = 1
 
 	def move_mand_magnet(self,x,t):
@@ -513,7 +532,7 @@ class Ice_ball(Parent_Func):
 
 	def move(self):
 		self._y -= self.__ball_speed
-		if self._y == -10:
+		if self._y <= -10:
 			self._delete = 1
 
 	def chk(self,obj):

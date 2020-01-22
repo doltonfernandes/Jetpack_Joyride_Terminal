@@ -79,20 +79,28 @@ class Board:
 		tmp.reverse()
 		return tmp
 
-	def update_corner(self,arr):
+	def update_corner(self,arr,s):
 		sc = ['S','C','O','R','E',' ','=']
 		li = ['L','I','V','E','S',' ','=']
 		tl = ['T','I','M','E',' ','=']
+		shd = ['S','H','I','E','L','D',' ','=']
 		lol = 3
-		arr[1:2,lol:len(sc)+lol] = sc
-		arr[2:3,lol:len(li)+lol] = li
-		arr[3:4,lol:len(tl)+lol] = tl
+		self.__board_arr[1:2,lol:len(sc)+lol] = sc
+		self.__board_arr[2:3,lol:len(li)+lol] = li
+		self.__board_arr[3:4,lol:len(tl)+lol] = tl
+		self.__board_arr[4:5,lol:len(shd)+lol] = shd
 		tmp = self.get_num_str(self.__score)
-		arr[1:2,len(sc)+1+lol:len(sc)+1+len(tmp)+lol] = tmp
+		self.__board_arr[1:2,len(sc)+1+lol:len(sc)+1+len(tmp)+lol] = tmp
 		tmp = self.get_num_str(self.__time)
-		arr[3:4,len(tl)+1+lol:len(tl)+1+len(tmp)+lol] = tmp
+		self.__board_arr[3:4,len(tl)+1+lol:len(tl)+1+len(tmp)+lol] = tmp
+		if s==[]:
+			k = ( arr[0].get_shield_time() / 60 ) * 100
+		else:
+			k = int(((s.get_shield_time() - s.get_shield_ini_time() + self.__time)/s.get_shield_time())*100)
+		tmp = self.get_num_str(k)
+		self.__board_arr[4:5,len(shd)+1+lol:len(shd)+1+len(tmp)+lol] = tmp
 		for i in range(self.__lives):
-			arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "❤"
+			self.__board_arr[2:3,len(li)+1+lol+2*i:len(li)+2+lol+2*i] = "❤"
 
 	def update_corner2(self,arr,x):
 		li = ['L','I','V','E','S',' ','=']
@@ -162,6 +170,7 @@ class Board:
 		self.check_ball(arr)
 
 		l1 = []
+		shld = []
 
 		for i in range(1,len(arr)):
 			if arr[i].get_name()=="coin" and arr[i].chk(arr[0]):
@@ -179,6 +188,7 @@ class Board:
 					self.__speed_boost_time += (SPEED_BOOST_TIME*self.__fr)
 			if arr[i].get_name()=="shield":
 				self.__shield = arr[i].update_shield( arr[0].get_x() - 1 , arr[0].get_y() - 2 , self.__time )
+				shld = arr[i]
 			for j in range(arr[i].get_rows()):
 				for k in range(arr[i].get_columns()):
 					if arr[i].get_x()+j>=0 and arr[i].get_x()+j<self.__rows and arr[i].get_y()+k>=0 and arr[i].get_y()+k<self.__columns:
@@ -206,7 +216,11 @@ class Board:
 			arr.pop(i-k)
 			k += 1
 
-		self.update_corner(self.__board_arr)
+		if self.__shield:
+			arr[0].reset_shield_time()
+		else:
+			arr[0].update_shield_time()
+		self.update_corner(arr,shld)
 		if self.__dec_lives > 0:
 			self.__dec_lives -= 1
 		if self.__mag_time > 0:
@@ -221,6 +235,8 @@ class Board:
 			if l1[0].get_lives() == 0:
 				self.exit_game(1)
 		self.print_board()
+		print()
+		print(arr[0].gett())
 
 	def add_game_over(self,x):
 		s = "GAME  OVER"
@@ -229,7 +245,7 @@ class Board:
 			arr.append(i)
 			arr.append(" ")
 			
-		self.__board_arr[20:21,80:80+len(arr)] = arr
+		self.__board_arr[20:21,90:90+len(arr)] = arr
 		if x:
 			s = "YOU WIN"
 			f = 1
@@ -240,7 +256,7 @@ class Board:
 		for i in s:
 			arr.append(i)
 			arr.append(" ")
-		self.__board_arr[21:22,82+f:82+f+len(arr)] = arr
+		self.__board_arr[21:22,92+f:92+f+len(arr)] = arr
 
 	def exit_game(self,x):
 		self.add_game_over(x)
