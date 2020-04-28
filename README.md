@@ -46,11 +46,11 @@
 	This the class for the bars (obstacles)
 	According to the value of p given during initialisation of the object of this class ,one of the 4 types of bars ( Vertical , Horizontal , Upper left to Lower right Diagonal , Upper right to Lower left Diagonal ) is made.
 
-### 3) Encapsulation :
+## 3) Encapsulation :
 
 	Classes and object are being used and made so encapsulation is done.
 
-### 4) Abstraction :
+## 4) Abstraction :
 
 	( images/4.png )
 	This is the Mandalorian class.
