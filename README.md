@@ -1,4 +1,4 @@
-##1. Rules of the game
+## 1. Rules of the game
 
 	1) Game runs for a fixed amount of time which when exceeded makes you lose the game
 	2) Many coins come on the way which when collected fetches you 5pts
@@ -10,12 +10,12 @@
 	8) Boss follows the mandalorian along the vertical axis
 	9) To kill Boss, it needs to be hit by 10 bullets
 
-##2. Description of Main Classes
+## 2. Description of Main Classes
 
 	1) Board : Contains the main 2d numpy grid, timer, description, rules of the game.
 	2) Game : This is where the main loop of the game runs and all other classes are called.
 
-##3. Instructions to play
+## 3. Instructions to play
 
 	Run the following command in the directory :	
 	1) python3 main.py
@@ -27,20 +27,20 @@
 		d) Press Q to quit the game
 		e) Press 0 to activate Ultimate Dragon which can be used only once in the entire game
 
-##4. Requirements
+## 4. Requirements
 
 	1) Python3
 	2) colorama==0.4.3
 	3) numpy==1.18.1
 
-##How the OOPS concepts are used :
+## How the OOPS concepts are used :
 
-##1) Inheritance:
+## 1) Inheritance:
 
 	As you can see in images ( images/1.png and images/2.png ) the class Enemy is inherited from two classes Person and Parent_Func.
 	Some variables are kept protected beacause private variables can’t be accessed in an inherited class.
 
-##2) Polymorphism :
+## 2) Polymorphism :
 
 	( images/3.png )
 	This the class for the bars (obstacles)
